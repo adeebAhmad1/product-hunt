@@ -6,18 +6,16 @@ export const useData = ()=> useContext(DataContext);
 
 class DataContextProvider extends Component {
   state = {
-    businesses: [],
-    businessesLoaded: false,
-    filteredBusinesses: [],
-    filteredBusinessesLoaded: false,
-    categories : [],
-    categoriesLoaded: false,
-    location: [],
-    locationLoaded: false,
+    products: [],
+    productsLoaded: false,
+    category: [],
+    categoryLoaded: false,
+    filteredproducts: [],
+    filteredproductsLoaded: false,
     pageLoaded: false,
     allLoaded: false
   };
-  getData = (type,typeLoaded,location=null,category=null)=>{
+  getData = (type,typeLoaded)=>{
     this.setState({[typeLoaded]: false});
     const onSnapshot = snapShot=>{
       const array = [];
@@ -30,21 +28,21 @@ class DataContextProvider extends Component {
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
-  getFiltered = (type,typeLoaded,location=null,category=null)=>{
-    this.setState({[typeLoaded]: false});
+  getFiltered = (freeVersion=null,category=null,name=null)=>{
+    this.setState({filteredproductsLoaded: false});
     const onSnapshot = snapShot=>{
-      const array = [];
+      const filteredproducts = [];
       snapShot.forEach(doc=>{
         const data = doc.data();
         data.id = doc.id;
-        array.push(data);
+        filteredproducts.push(data);
       });
-      this.setState({[type]: array,[typeLoaded]: true});
+      this.setState({filteredproducts,filteredproductsLoaded: true});
     }
-    if(location && category) db.collection("businesses").where("location", "==", location).where("category", "==", category).onSnapshot(onSnapshot);
-    else if(location && !category) db.collection("businesses").where("location", "==", location).onSnapshot(onSnapshot);
-    else if(!location && category) db.collection("businesses").where("category", "==", category).onSnapshot(onSnapshot);
-    else db.collection("businesses").onSnapshot(onSnapshot);
+    if(name) return db.collection("products").where("name", "==", name.toLowerCase()).onSnapshot(onSnapshot);
+    if(freeVersion) return db.collection("products").where("freeVersion", "array-contains", freeVersion.toLowerCase()).onSnapshot(onSnapshot);
+    if(category) return db.collection("products").where("category", "array-contains", category.toLowerCase()).onSnapshot(onSnapshot);
+    else return db.collection("products").onSnapshot(onSnapshot);
   }
   updateData = (type,id,update,resolve,reject)=>{
     db.collection(type).doc(id).update(update).then(resolve).catch(reject);
@@ -53,9 +51,7 @@ class DataContextProvider extends Component {
     db.collection(type).add(add).then(resolve).catch(reject);
   }
   componentDidMount(){
-    this.getData("categories","categoriesLoaded");
-    this.getData("location","locationLoaded");
-    this.getData("businesses","businessesLoaded");
+    this.getData("products","productsLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
   delete = (collection,id,reject)=>{
@@ -71,8 +67,8 @@ class DataContextProvider extends Component {
     storage.refFromURL(url).delete().then(resolve).catch(reject)
   }
   UNSAFE_componentWillUpdate(prevProps, prevState){
-    const { categoriesLoaded, locationLoaded, pageLoaded, allLoaded} = prevState;
-    if(categoriesLoaded && locationLoaded && pageLoaded && !allLoaded){
+    const { pageLoaded, allLoaded} = prevState;
+    if( pageLoaded && !allLoaded){
       setTimeout(() => this.setState({allLoaded: true}), 100);
     }
   }

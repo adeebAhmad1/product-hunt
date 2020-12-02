@@ -1,38 +1,113 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.font-weight-bolder {
+  font-weight: 900 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav {
+  z-index: 100;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+#login-card {
+  width: 400px;
+  border-radius: 25px;
+  margin: 150px auto;
+}
+
+#email {
+  border-radius: 30px;
+  background-color: #ebf0fc;
+  border-color: #ebf0fc;
+  color: #9da3b0;
+}
+
+#button {
+  border-radius: 30px;
+}
+
+#btn {
+  position: absolute;
+  bottom: -35px;
+  padding: 5px;
+  margin: 0px 55px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-category:first-child {
+  margin-right: 0.5rem;
+}
+.btn-category {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+.btn-category:last-child {
+  margin-left: 0.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.icon {
+  width: 6rem;
+  height: 6rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  min-width: 6rem;
+  transform: translateX(-3rem);
+}
+
+.span_tag {
+  font-size: 0.75rem;
+  background-color: #eee;
+  border-radius: 5rem;
+  padding: 5px 10px;
+  text-transform: capitalize;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.voting_arrow {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 2rem;
+  height: 2rem;
+  background-color: #007bff;
+  display: inline-block;
+}
+
+.btn-outline-primary:hover .voting_arrow,
+.btn-primary .voting_arrow {
+  background-color: #fff;
+}
+
+footer {
+  padding-top: 5rem;
+  clip-path: polygon(0 5vh, 100% 0, 100% 100%, 0% 100%);
+  padding-bottom: 3rem;
+  position: relative;
+  background-color: #1d2d35;
+  color: #cccccc;
+}
+
+.footer_link{
+  position: relative;
+  font-size: 0.8rem;
+}
+
+.footer_link::before{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2px;
+  width: 0%;
+  transition: all 0.3s;
+  background-color: #fff;
+}
+
+.footer_link:hover::before{
+  width: 100%;
 }

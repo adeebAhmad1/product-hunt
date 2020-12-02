@@ -5,7 +5,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-
+- Logo (link to logo or jpeg/png upload)
+- Name
+- Category/Tag (Type of product)
+- Free version (yes or no)
+- Min. Paid Membership
+- One sentence description
 ### `npm start`
 
 Runs the app in the development mode.\

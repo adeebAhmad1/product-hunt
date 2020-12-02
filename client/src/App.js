@@ -1,24 +1,25 @@
-// import logo from './logo.svg';
-import React, { useRef } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import Footer from "./components/Layout/Footer";
+import Header from "./components/Layout/Header";
+import AuthContextProvider from "./context/AuthContext";
+import DataContextProvider from "./context/DataContext";
+import Routes from "./routes/routes";
 
-function App() {
-  const email = useRef();
-  const onSubmit = (e) => {
-    e.preventDefault();
-    fetch(`/api/memberAdd?email=${email.current.value}`)
-      .then((res) => res.json())
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-  return (
-    <div className="App">
-      <form action="/" method="POST" onSubmit={onSubmit}>
-        <input type="email" ref={email} />
-        <button>Submit</button>
-      </form>
-    </div>
-  );
-}
+const App = () => (
+  <AuthContextProvider>
+    <DataContextProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Header />
+          <Routes />
+          <Footer />
+        </BrowserRouter>
+      </div>
+    </DataContextProvider>
+  </AuthContextProvider>
+);
 
 export default App;
