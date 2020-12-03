@@ -8,8 +8,8 @@ class DataContextProvider extends Component {
   state = {
     products: [],
     productsLoaded: false,
-    category: [],
-    categoryLoaded: false,
+    categories: [],
+    categoriesLoaded: false,
     filteredproducts: [],
     filteredproductsLoaded: false,
     pageLoaded: false,
@@ -25,10 +25,11 @@ class DataContextProvider extends Component {
         array.push(data);
       });
       this.setState({[type]: array,[typeLoaded]: true});
+      console.log(array)
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
-  getFiltered = (freeVersion=null,category=null,name=null)=>{
+  getFiltered = (versions=null,category=null,name=null)=>{
     this.setState({filteredproductsLoaded: false});
     const onSnapshot = snapShot=>{
       const filteredproducts = [];
@@ -40,7 +41,7 @@ class DataContextProvider extends Component {
       this.setState({filteredproducts,filteredproductsLoaded: true});
     }
     if(name) return db.collection("products").where("name", "==", name.toLowerCase()).onSnapshot(onSnapshot);
-    if(freeVersion) return db.collection("products").where("freeVersion", "array-contains", freeVersion.toLowerCase()).onSnapshot(onSnapshot);
+    if(versions) return db.collection("products").where("versions", "array-contains", versions.toLowerCase()).onSnapshot(onSnapshot);
     if(category) return db.collection("products").where("category", "array-contains", category.toLowerCase()).onSnapshot(onSnapshot);
     else return db.collection("products").onSnapshot(onSnapshot);
   }
@@ -52,6 +53,7 @@ class DataContextProvider extends Component {
   }
   componentDidMount(){
     this.getData("products","productsLoaded");
+    this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
   delete = (collection,id,reject)=>{
@@ -67,8 +69,9 @@ class DataContextProvider extends Component {
     storage.refFromURL(url).delete().then(resolve).catch(reject)
   }
   UNSAFE_componentWillUpdate(prevProps, prevState){
-    const { pageLoaded, allLoaded} = prevState;
-    if( pageLoaded && !allLoaded){
+    const { categoriesLoaded, productsLoaded, pageLoaded, allLoaded } = prevState;
+    if( categoriesLoaded && productsLoaded && pageLoaded && !allLoaded){
+      console.log(prevState)
       setTimeout(() => this.setState({allLoaded: true}), 100);
     }
   }

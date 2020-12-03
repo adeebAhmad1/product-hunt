@@ -1,5 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import Dashboard from '../components/Dashboard';
+import Add from '../components/Dashboard/Add';
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Panel from '../components/Panel';
@@ -23,7 +25,8 @@ const Routes = () => {
     <Switch>
       <PublicRoutes restricted={false} user={isAuth} component={Home} path="/" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Login} path="/login" exact />
-      <PrivateRoutes user={isAuth} component={Panel} path="/dashboard" exact />
+      <PrivateRoutes user={isAuth} component={Dashboard} path="/dashboard" exact />
+      <PrivateRoutes user={isAuth} component={Add} path="/panel/add/products" exact />
     </Switch>
   );
 };

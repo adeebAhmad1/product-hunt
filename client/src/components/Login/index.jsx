@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import Input from "../utils/Input";
 
 const Login = () => {
   console.log(useAuth());
@@ -13,40 +14,18 @@ const Login = () => {
     login(email.current.value,password.current.value,()=>{},reject)
   }
   return (
-    <div id="login-card" className="card">
-      <div className="card-body">
-        <h2 className="text-center">Login form</h2>
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="email" ref={email} 
-              placeholder="Enter email"
-              name="email"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="email" ref={password}
-              placeholder="Enter password"
-              name="pswd"
-            />
-          </div>
-          <button
-            type="submit"
-            id="button"
-            className="btn btn-primary deep-purple btn-block "
-          >
-            Submit
-          </button>
-          {error ? <div className="alert alert-danger mt-4">
+    <div className="d-flex justify-content-center align-items-center py-5" >
+      <form onSubmit={onSubmit} className="form pt-3 pb-5">
+      <div className="title">Welcome !</div>
+      <Input name="Email"ref={email} id="email" type="email" />
+      <Input name="Password"ref={password} id="password" type="password" />
+      <button type="text" className="submit">
+        submit
+      </button>
+      {error ? <div className="alert alert-danger mt-4">
         {error.message}
       </div>: ""}
-        </form>
-      </div>
+    </form>
     </div>
   );
 };

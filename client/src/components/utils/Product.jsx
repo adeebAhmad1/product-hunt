@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-const Product = ({ name, icon, minMembership,freeVersion, category,votes:votesPrev }) => {
+const Product = ({ name, icon, minMembership,versions, category,votes:votesPrev }) => {
   const [voted,setVoted] = useState(0);
   const [votes,setVotes] = useState(votesPrev);
+  
   useEffect(()=>{
     const voted = JSON.parse(localStorage.getItem(name)) || 0;
     setVoted(+voted.voted);
     setVotes(votesPrev)
-  },[]);
+  },[name,votesPrev]);
   const toggleVote = ()=>{
     localStorage.setItem(name,JSON.stringify({voted: voted ? 0 : 1}));
     setVoted(v=> v ? 0 : 1);
@@ -15,8 +16,8 @@ const Product = ({ name, icon, minMembership,freeVersion, category,votes:votesPr
   }
   return (
     <div className="container rounded shadow my-5">
-      <div className="d-flex">
-        <div className="icon" style={{ backgroundImage: `url(${icon})` }}></div>
+      <div className="d-lg-flex d-block">
+        <div className="icon mx-auto" style={{ backgroundImage: `url(${icon})` }}></div>
         <div className="container-fluid">
         <div>
           <div className="">
@@ -26,7 +27,7 @@ const Product = ({ name, icon, minMembership,freeVersion, category,votes:votesPr
               <p className="font-weight-bold mb-1">{minMembership}</p>
               <p className="mb-1">
                 <span className="span_tag">{category}</span>
-                {freeVersion.map(el=> <span key={el} className="span_tag"> {el} </span>)}
+                {versions.map(el=> <span key={el} className="span_tag"> {el} </span>)}
               </p>
             </div>
             <div className="col-lg-2 py-2 text-center">
