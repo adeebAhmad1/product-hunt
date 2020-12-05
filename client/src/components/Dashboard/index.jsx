@@ -18,7 +18,7 @@ const Dashboard = () => {
       return array.map((el,i) => {
         return<tr key={i}>
           <th scope="row">{i+1}</th>
-          <td>{el.name}</td>
+          <td>{el.subcategory}</td>
           <td>{el.id}</td>
           <td>
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -41,7 +41,7 @@ const Dashboard = () => {
       return data[name].map((el,i) => {
         return<tr key={i}>
           <th scope="row"> {i+1} </th>
-          <td>{truncate(el.icon)}</td>
+          <td><img src={el.icon} style={{width: `50px`}} alt=""/></td>
           <td>{truncate(el.name)}</td>
           <td>{truncate(el.category)}</td>
           <td>
@@ -88,6 +88,7 @@ const Dashboard = () => {
             {showData("categories")}
           </tbody>
         </table>
+        <Link to="/panel/add/category" style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add Category </Link>
           </div>
         </div>
       </div>

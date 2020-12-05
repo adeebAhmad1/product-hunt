@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Input from '../utils/Input';
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useData } from "../../context/DataContext";
 const Add = () => {
   const { goBack } = useHistory();
@@ -17,11 +17,11 @@ const Add = () => {
   const get = (name) => name.current.value;
   const pattern = new RegExp('^(https?:\\/\\/)?'+ '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ '((\\d{1,3}\\.){3}\\d{1,3}))'+ '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ '(\\?[;&a-z\\d%_.~+=-]*)?'+ '(\\#[-a-z\\d_]*)?$','i');
   const onSubmit = (e)=>{
+    e.preventDefault();
     if(pattern.test(get(website))){
       if(pattern.test(get(icon))){
         setloading(true)
         const item = { icon: get(icon),versions: get(version).split(","),description: get(description) ,minMembership: get(minMembership), name: get(name), website: get(website), category: category.current.selectedOptions[0].value, votes: 0 }
-        e.preventDefault();
         data.addData("products",item,()=>{
           goBack();
           setloading(false);
@@ -33,7 +33,7 @@ const Add = () => {
       seterror({message: "Please Enter a valid website URL"})
     }
   };
-  const map = (array)=> array.map((el,i)=> <option key={i} value={el.name}>{el.name}</option>)
+  const map = (array)=> array.map((el,i)=> <option key={i} value={el.subcategory}>{el.subcategory}</option>)
   return (
     <div className="d-flex justify-content-center align-items-center py-5">
       <form onSubmit={onSubmit} className="form">
@@ -55,7 +55,7 @@ const Add = () => {
         </div>
         <button disabled={loading} type="text" className="submit">submit</button>
         {
-          error ? <div className="alert alert-danger">
+          error ? <div className="alert font_small alert-danger">
             {error.message}
           </div> : ""
         }

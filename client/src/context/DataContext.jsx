@@ -15,7 +15,7 @@ class DataContextProvider extends Component {
     pageLoaded: false,
     allLoaded: false
   };
-  getData = (type,typeLoaded)=>{
+  getData = (type,typeLoaded,isProducts)=>{
     this.setState({[typeLoaded]: false});
     const onSnapshot = snapShot=>{
       const array = [];
@@ -25,7 +25,7 @@ class DataContextProvider extends Component {
         array.push(data);
       });
       this.setState({[type]: array,[typeLoaded]: true});
-      console.log(array)
+      if(isProducts) this.setFiltered(array,true)
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
@@ -40,11 +40,12 @@ class DataContextProvider extends Component {
       });
       this.setState({filteredproducts,filteredproductsLoaded: true});
     }
-    if(name) return db.collection("products").where("name", "==", name.toLowerCase()).onSnapshot(onSnapshot);
-    if(versions) return db.collection("products").where("versions", "array-contains", versions.toLowerCase()).onSnapshot(onSnapshot);
-    if(category) return db.collection("products").where("category", "array-contains", category.toLowerCase()).onSnapshot(onSnapshot);
+    if(name) return db.collection("products").where("name", "==", name).onSnapshot(onSnapshot);
+    if(versions) return db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
+    if(category) return db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);
     else return db.collection("products").onSnapshot(onSnapshot);
   }
+  setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
   updateData = (type,id,update,resolve,reject)=>{
     db.collection(type).doc(id).update(update).then(resolve).catch(reject);
   }
@@ -52,7 +53,7 @@ class DataContextProvider extends Component {
     db.collection(type).add(add).then(resolve).catch(reject);
   }
   componentDidMount(){
-    this.getData("products","productsLoaded");
+    this.getData("products","productsLoaded",true);
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
@@ -71,14 +72,13 @@ class DataContextProvider extends Component {
   UNSAFE_componentWillUpdate(prevProps, prevState){
     const { categoriesLoaded, productsLoaded, pageLoaded, allLoaded } = prevState;
     if( categoriesLoaded && productsLoaded && pageLoaded && !allLoaded){
-      console.log(prevState)
       setTimeout(() => this.setState({allLoaded: true}), 100);
     }
   }
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : ""}
       </DataContext.Provider>
     );

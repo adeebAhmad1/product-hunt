@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useData } from "../../context/DataContext";
 
-const Product = ({ name, icon, minMembership,versions, category,votes:votesPrev }) => {
+const Product = ({ id, name, icon, minMembership,versions, category,votes:votesPrev }) => {
   const [voted,setVoted] = useState(0);
   const [votes,setVotes] = useState(votesPrev);
+  const { updateData } = useData();
   
   useEffect(()=>{
     const voted = JSON.parse(localStorage.getItem(name)) || 0;
     setVoted(+voted.voted);
-    setVotes(votesPrev)
+    setVotes(votesPrev || 0)
   },[name,votesPrev]);
   const toggleVote = ()=>{
-    localStorage.setItem(name,JSON.stringify({voted: voted ? 0 : 1}));
     setVoted(v=> v ? 0 : 1);
-    setVotes(voted ? votes - 1 : votes + 1)
+    setVotes(voted ? votes + 1 : votes + 1);
+    localStorage.setItem(name,JSON.stringify({voted: voted ? 0 : 1}));
+    updateData("products",id,{votes: voted ? votes + 1 : votes + 1},()=>{},()=>{})
   }
   return (
     <div className="container rounded shadow my-5">

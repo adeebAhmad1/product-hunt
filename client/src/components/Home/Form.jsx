@@ -12,7 +12,7 @@ const Form = () => {
   return (
     <form action="/" method="POST" style={{minWidth: `300px`}} className="text-center w-50 mx-auto rounded shadow my-5" onSubmit={onSubmit}>
       <div className="px-5 pt-5">
-        <h1 className="font-weight-bold">Startup Mate</h1>
+        <h1 className="font-weight-bold">Productify</h1>
         <h3 className="font-weight-light">700+ Resources for your next Startup or Side Project</h3>
         <h6 className="font-weight-bold">Join other 1k+ Makers for the best Tools every week</h6>
       </div>

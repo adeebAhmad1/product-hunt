@@ -17,6 +17,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+facebookProvider.addScope('user_birthday');
 // DATABASE
 var db = firebase.firestore();
 
@@ -26,5 +30,5 @@ var storage = firebase.storage();
 // Create a storage reference from our storage service
 var storageRef = storage.ref();
 
-export { db, storage, storageRef };
+export { db, storage, storageRef, googleProvider, facebookProvider };
 export default firebase;

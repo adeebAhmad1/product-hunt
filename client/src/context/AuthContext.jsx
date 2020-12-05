@@ -21,9 +21,13 @@ const AuthContextProvider = ({children}) => {
     });
   },[]);
   const login = (email,password,resolve,reject)=>{
-    firebase.auth().signInWithEmailAndPassword(email,password).then(resolve).catch(reject);
+    firebase.auth().signInWithEmailAndPassword(email,password).then(a=>resolve(a)).catch(err=> reject(err));
   }
-  const value = {user,isAuth,login};
+  const currentUser = ()=> firebase.auth().currentUser;
+  const signup = (email,password,resolve,reject)=>{
+    firebase.auth().createUserWithEmailAndPassword(email,password).then(a=>resolve(a)).catch(err=> reject(err));
+  }
+  const value = {user,isAuth,login,signup,currentUser};
   return (
     <AuthContext.Provider value={value}>
       {children}

@@ -3,7 +3,6 @@ import { useAuth } from "../../context/AuthContext";
 import Input from "../utils/Input";
 
 const Login = () => {
-  console.log(useAuth());
   const { login } = useAuth();
   const [error,setError] = useState(null)
   const email = useRef(null);
