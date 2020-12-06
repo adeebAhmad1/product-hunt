@@ -15,7 +15,7 @@ const Form = () => {
       fetch(`/api/memberAdd?email=${email.current.value}`)
       .then((res) => res.json())
       .then((res) => {
-        if(res.status >= 200 && res.status <= 300){
+        if(res.statusCode < 300){
           setloading(false);
           email.current.value = "";
           setSuccess("Email Successfully Registered")
@@ -28,6 +28,7 @@ const Form = () => {
       })
       .catch((err) => {
         setloading(false);
+        console.log(err)
         setError("There was a problem in loading the email. Please check your email again.");
         setTimeout(() => setError(false), 2000);
       });
