@@ -8,28 +8,28 @@ import Login from "../components/Login";
 import Signup from '../components/Signup';
 import { useAuth } from "../context/AuthContext";
 
-const PrivateRoutes = ({ user, component: Comp, ...rest }) => {
+const PrivateRoutes = ({ role, component: Comp, ...rest }) => {
   return (
-    <Route {...rest} component={(props) => user ? <Comp {...props} /> : <Redirect to="/login" />}/>
+    <Route {...rest} component={(props) => role === "admin" ? <Comp {...props} /> : <Redirect to="/login" />}/>
   );
 };
 
 const PublicRoutes = ({ user, component: Comp, ...rest }) => {
   return (
-    <Route {...rest} component={(props) => rest.restricted ? (user ? (<Redirect to="/dashboard" />) : (<Comp {...props} />)) : (<Comp {...props} />)}/>
+    <Route {...rest} component={(props) => rest.restricted ? (user ? (<Redirect to="/" />) : (<Comp {...props} />)) : (<Comp {...props} />)}/>
   );
 };
 
 const Routes = () => {
-  const { isAuth } = useAuth();
+  const { isAuth,activeUser } = useAuth();
   return (
     <Switch>
       <PublicRoutes restricted={false} user={isAuth} component={Home} path="/" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Login} path="/login" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Signup} path="/signup" exact />
-      <PrivateRoutes user={isAuth} component={Dashboard} path="/dashboard" exact />
-      <PrivateRoutes user={isAuth} component={Add} path="/panel/add/products" exact />
-      <PrivateRoutes user={isAuth} component={AddCategory} path="/panel/add/category" exact />
+      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Dashboard} path="/dashboard" exact />
+      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Add} path="/panel/add/products" exact />
+      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={AddCategory} path="/panel/add/category" exact />
     </Switch>
   );
 };

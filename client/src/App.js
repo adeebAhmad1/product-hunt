@@ -9,17 +9,17 @@ import DataContextProvider from "./context/DataContext";
 import Routes from "./routes/routes";
 
 const App = () => (
-  <AuthContextProvider>
-    <DataContextProvider>
-      <div className="App">
-        <BrowserRouter>
+  <BrowserRouter>
+    <AuthContextProvider>
+      <DataContextProvider>
+        <div className="App">
           <Header />
           <Routes />
           <Footer />
-        </BrowserRouter>
-      </div>
-    </DataContextProvider>
-  </AuthContextProvider>
+        </div>
+      </DataContextProvider>
+    </AuthContextProvider>
+  </BrowserRouter>
 );
 
 export default App;

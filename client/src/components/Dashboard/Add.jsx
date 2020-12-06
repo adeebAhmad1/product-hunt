@@ -21,7 +21,7 @@ const Add = () => {
     if(pattern.test(get(website))){
       if(pattern.test(get(icon))){
         setloading(true)
-        const item = { icon: get(icon),versions: get(version).split(","),description: get(description) ,minMembership: get(minMembership), name: get(name), website: get(website), category: category.current.selectedOptions[0].value, votes: 0 }
+        const item = { icon: get(icon),versions: get(version).split(","),description: get(description) ,minMembership: get(minMembership), name: get(name), website: get(website), category: category.current.selectedOptions[0].value, votes: [] }
         data.addData("products",item,()=>{
           goBack();
           setloading(false);

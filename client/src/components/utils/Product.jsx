@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
+import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
-const Product = ({ id, name, icon, minMembership,versions, category,votes:votesPrev }) => {
-  const [voted,setVoted] = useState(0);
-  const [votes,setVotes] = useState(votesPrev);
-  const { updateData } = useData();
-  
+const Product = ({ id, name, icon, minMembership,versions, category,votes }) => {
+  const [voted,setVoted] = useState(false);
+  const { updateData,setFiltered, products } = useData();
+  const [error,setError] = useState(false)
+  const {user: {uid}} = useAuth()
   useEffect(()=>{
-    const voted = JSON.parse(localStorage.getItem(name)) || 0;
-    setVoted(+voted.voted);
-    setVotes(votesPrev || 0)
-  },[name,votesPrev]);
+    setVoted(votes.includes(uid))
+  },[uid,votes]);
   const toggleVote = ()=>{
-    setVoted(v=> v ? 0 : 1);
-    setVotes(voted ? votes + 1 : votes + 1);
-    localStorage.setItem(name,JSON.stringify({voted: voted ? 0 : 1}));
-    updateData("products",id,{votes: voted ? votes + 1 : votes + 1},()=>{},()=>{})
+    if(uid){
+      const i = votes.indexOf(uid);
+      if(i >= 0){
+        votes.splice(i, 1);
+      } else{
+        votes.push(uid)
+      }
+      updateData("products",id,{votes},()=>{},err=>setError(err))
+    } else{
+      setError({message: <div>Please <Link to="/login" >Login</Link> Before Trying to vote</div>})
+    }
   }
   return (
     <div className="container rounded shadow my-5">
@@ -37,8 +44,12 @@ const Product = ({ id, name, icon, minMembership,versions, category,votes:votesP
               <button onClick={toggleVote} className={voted ? "btn btn-primary" : "btn btn-outline-primary"}>
                 <span className="voting_arrow"></span>
               </button> <br/>
-              <span>{votes}</span>
+              <span>{votes.length}</span>
             </div>
+            <div className="w-100"></div>
+            {error ? <div className="alert alert-danger">
+                {error.message}
+              </div> : "" }
           </div>
           </div>
         </div>
