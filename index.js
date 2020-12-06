@@ -31,10 +31,10 @@ app.get("/api/memberAdd", (req, res) => {
       status: "subscribed",
     })
     .then((result) => {
-      res.send({result});
+      res.send(result);
     })
     .catch((error) => {
-      res.send({error});
+      res.send(error);
     });
 });
 
