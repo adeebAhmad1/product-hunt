@@ -52,7 +52,7 @@ const Dashboard = () => {
           <td>{truncate(el.minMembership)}</td>
           <td>{truncate(el.description)}</td>
           <td>{truncate(el.website)}</td>
-          <td>{truncate(el.votes)}</td>
+          <td>{el.votes.length}</td>
           <td> 
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
             <button onClick={()=>data.delete(name,el.id)} style={{fontSize: `0.8rem`}} className="btn btn-danger">
