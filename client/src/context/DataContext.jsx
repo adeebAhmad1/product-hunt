@@ -79,7 +79,7 @@ class DataContextProvider extends Component {
   render() {
     return (
       <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
-        {this.state.allLoaded ? this.props.children : ""}
+        {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );
   }

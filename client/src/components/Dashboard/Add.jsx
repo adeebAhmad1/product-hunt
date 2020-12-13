@@ -21,7 +21,7 @@ const Add = () => {
     if(pattern.test(get(website))){
       if(pattern.test(get(icon))){
         setloading(true)
-        const item = { icon: get(icon),versions: get(version).split(","),description: get(description) ,minMembership: get(minMembership), name: get(name), website: get(website), category: category.current.selectedOptions[0].value, votes: [] }
+        const item = { icon: get(icon),versions: get(version).split(","),description: get(description) ,minMembership: +get(minMembership), name: get(name), website: get(website), category: category.current.selectedOptions[0].value, votes: [] }
         data.addData("products",item,()=>{
           goBack();
           setloading(false);
@@ -38,7 +38,7 @@ const Add = () => {
     <div className="d-flex justify-content-center align-items-center py-5">
       <form onSubmit={onSubmit} className="form">
         <Input ref={name} required={true} id="name" name="Name" type="text"/>
-        <Input ref={minMembership} required={true} id="minMembership" name="Minimum Paid Membership" type="text"/>
+        <Input ref={minMembership} required={true} id="minMembership" name="Minimum Paid Membership" type="number"/>
         <Input ref={description} required={true} id="description" name="Description" type="text"/>
         <Input ref={website} id="website" name="website" type="text"/>
         <Input ref={version} id="version" name="version" type="text"/>

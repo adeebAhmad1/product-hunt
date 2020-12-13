@@ -3,9 +3,9 @@ import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
-const Product = ({ id, name, icon, minMembership,versions, category,votes }) => {
+const Product = ({ website, id, name, icon,description, minMembership,versions, category,votes }) => {
   const [voted,setVoted] = useState(false);
-  const { updateData,setFiltered, products } = useData();
+  const { updateData } = useData();
   const [error,setError] = useState(false)
   const {user: {uid}} = useAuth()
   useEffect(()=>{
@@ -32,8 +32,11 @@ const Product = ({ id, name, icon, minMembership,versions, category,votes }) => 
         <div>
           <div className="">
           <div className="row">
-            <div className="col-lg-4 font-weight-bold py-4 h3">{name}</div>
-            <div className="col-lg-6 p-3">
+            <div className="col-lg-5 font-weight-bold py-3">
+              <h4> <a className="text-decoration-none font-weight-bold text-dark" href={website}>{name}</a> </h4>
+              <p className="mb-0 font-weight-light font_smaller">{description}</p>
+            </div>
+            <div className="col-lg-5 p-3">
               <p className="font-weight-bold mb-1">{minMembership}</p>
               <p className="mb-1">
                 <span className="span_tag">{category}</span>
