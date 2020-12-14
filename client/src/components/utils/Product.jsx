@@ -37,7 +37,7 @@ const Product = ({ website, id, name, icon,description, minMembership,versions, 
               <p className="mb-0 font-weight-light font_smaller">{description}</p>
             </div>
             <div className="col-lg-5 p-3">
-              <p className="font-weight-bold mb-1">{minMembership}</p>
+              <p className="font-weight-bold mb-1">Min. Paid Membership: {minMembership}$ per Month</p>
               <p className="mb-1">
                 <span className="span_tag">{category}</span>
                 {versions.map(el=> <span key={el} className="span_tag"> {el} </span>)}
