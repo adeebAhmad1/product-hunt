@@ -58,6 +58,9 @@ const Dashboard = () => {
             <button onClick={()=>data.delete(name,el.id)} style={{fontSize: `0.8rem`}} className="btn btn-danger">
               Delete
             </button>
+            <Link style={{fontSize: `0.8rem`}} to={`/panel/edit/products/${el.id}`} className="btn btn-primary">
+              Edit
+            </Link>
           </div>
           </td>
         </tr>;

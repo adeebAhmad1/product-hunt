@@ -48,9 +48,9 @@ const AuthContextProvider = ({children}) => {
   const logout = ()=>{
     firebase.auth().signOut();
   }
-  const googleLogin = (login=false)=>{
+  const googleLogin = ()=>{
     firebase.auth().signInWithPopup(googleProvider).then(result=>{
-      if(login){
+      if(result.additionalUserInfo.isNewUser){
         db.collection("users").doc(result.uid).set({email: result.user.email,name: result.user.displayName,uid: result.user.uid,role: "user"})
       }
     })

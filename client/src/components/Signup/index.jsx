@@ -22,7 +22,7 @@ const Signup = () => {
   return (
     <div className="d-flex justify-content-center align-items-center py-5" >
       <div className="form pt-3 pb-5">
-      <div className="title ">Welcome to Productify!</div>
+      <div className="title ">Welcome to Tech Kit!</div>
       <button onClick={googleLogin} className="btn submit btn-primary">Signup With Google</button>
       <form onSubmit={onSubmit}>
       <Input name="Email" ref={email} id="email" type="email" />

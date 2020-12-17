@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../../config/Firebase";
 import { useData } from "../../context/DataContext";
 import Dropdown from "./Dropdown";
@@ -6,19 +6,29 @@ import Dropdown from "./Dropdown";
 const Searchbar = () => {
   const [by, setby] = useState({});
   const [open, setopen] = useState(0);
-  const { setFiltered } = useData();
+  const { setFiltered,products:old } = useData();
+  const products = JSON.parse(JSON.stringify(old));
   const onClick = e=> {
-    setFiltered([],false);
-    if(by.type){
-      db.collection("products").orderBy(by.type, by.type === "votes" && orders[open].type === "asc" ? "desc" : orders[open].type).get().then(snapShot=>{
-        const filteredProducts = [];
-        snapShot.forEach(doc=>{
-          const item = doc.data();
-          filteredProducts.push(item);
-        });
-        setFiltered(filteredProducts,true);
-        setby({});
-      })
+    if(by.type === "name"){
+      switch(open){
+        case(1):
+          setFiltered(products.sort((a,b)=> a.name.localeCompare(b.name)),true);
+          break;
+        case(0):
+          setFiltered(products.sort((a,b)=> b.name.localeCompare(a.name)),true);
+          break;
+        default: setFiltered([],true)
+      }
+    } else if(by.type === "votes"){
+      switch(open){
+        case(1):
+          setFiltered(products.sort((a,b)=> a.votes.length-b.votes.length),true);
+          break;
+        case(0):
+          setFiltered(products.sort((a,b)=> b.votes.length-a.votes.length),true);
+          break;
+        default: setFiltered([],true);
+      }
     }
   };
   const orders = [{type: "asc",name: "&upharpoonleft;"},{type: "desc",name: "&downharpoonright;"}]

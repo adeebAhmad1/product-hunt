@@ -1,5 +1,5 @@
 import React, { Component, createContext, useContext } from "react";
-import { db,storage } from "../config/Firebase";
+import { db } from "../config/Firebase";
 const DataContext = createContext();
 
 export const useData = ()=> useContext(DataContext);
@@ -59,15 +59,6 @@ class DataContextProvider extends Component {
   }
   delete = (collection,id,reject)=>{
     db.collection(collection).doc(id).delete().catch(reject)
-  }
-  addIcon = (icon,name,resolve,reject)=>{
-    storage.ref(`/icons/${name}`).put(icon).then(resolve).catch(reject)
-  }
-  getIcon = (name,resolve,reject)=>{
-    storage.ref(`/icons/${name}`).getDownloadURL().then(resolve).catch(reject)
-  }
-  deleteIcon = (url,resolve,reject)=>{
-    storage.refFromURL(url).delete().then(resolve).catch(reject)
   }
   UNSAFE_componentWillUpdate(prevProps, prevState){
     const { categoriesLoaded, productsLoaded, pageLoaded, allLoaded } = prevState;

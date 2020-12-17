@@ -3,12 +3,11 @@ import { useData } from '../../context/DataContext';
 import Featured from '../utils/Featured';
 
 const Features = () => {
-  const {products} = useData(); 
-  const [top,settop] = useState(products); 
+  const {products,projectsLoaded} = useData(); 
+  const [top,settop] = useState(products);
   useEffect(()=>{
-    top.sort((a,b)=> b.votes - a.votes)
-    settop(t=> t.slice(0,3));
-  },[])
+    settop(JSON.parse(JSON.stringify(products)).sort((a,b)=> b.votes.length - a.votes.length).slice(0,3));
+  },[products])
   return (
     <div className="py-5">
       <div className="container">

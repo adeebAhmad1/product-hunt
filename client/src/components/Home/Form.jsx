@@ -37,15 +37,15 @@ const Form = () => {
   return (
     <form action="/" method="POST" style={{minWidth: `300px`}} className="text-center w-50 mx-auto rounded shadow my-5" onSubmit={onSubmit}>
       <div className="px-5 pt-5">
-        <h1 className="font-weight-bold">Productify</h1>
-        <h3 className="font-weight-light">700+ Resources for your next Startup or Side Project</h3>
-        <h6 className="font-weight-bold">Join other 1k+ Makers for the best Tools every week</h6>
+        <h1 className="font-weight-bold">Tech Kit</h1>
+        <h3 className="font-weight-light">The largest directory of products, tools and resources for your next startup, project or side hustle.</h3>
+        <h6 className="font-weight-bold">Join 19,706+ entrepreneurs, intrapreneurs, makers and side hustlers to get the best new tools, every week</h6>
       </div>
       <div className="d-lg-flex d-block d-sm-block px-4 pb-5">
-      <div className="col-lg-9 my-1">
+      <div className="col-lg-8 my-1">
       <input type="email" required={true} className="form-control h-auto py-2 px-3" placeholder="Your Email" ref={email} id="email" />
       </div>
-      <div className="col-lg-3 my-1 text-center"><button disabled={loading} className="btn btn-primary shadow"> Subscribe&nbsp;Now </button></div>
+      <div className="col-lg-4 my-1 text-center"><button disabled={loading} className="btn btn-primary shadow"> Subscribe Now </button></div>
       </div>
       {
         success || error ? <div className="px-3 py-2">

@@ -29,6 +29,7 @@ const Routes = () => {
       <PublicRoutes restricted={true} user={isAuth} component={Signup} path="/signup" exact />
       <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Dashboard} path="/dashboard" exact />
       <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Add} path="/panel/add/products" exact />
+      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Add} path="/panel/edit/products/:id" exact />
       <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={AddCategory} path="/panel/add/category" exact />
     </Switch>
   );
