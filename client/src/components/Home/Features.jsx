@@ -3,7 +3,7 @@ import { useData } from '../../context/DataContext';
 import Featured from '../utils/Featured';
 
 const Features = () => {
-  const {products,projectsLoaded} = useData(); 
+  const {products} = useData(); 
   const [top,settop] = useState(products);
   useEffect(()=>{
     settop(JSON.parse(JSON.stringify(products)).sort((a,b)=> b.votes.length - a.votes.length).slice(0,3));

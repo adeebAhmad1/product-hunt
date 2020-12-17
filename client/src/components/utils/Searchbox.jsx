@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { db } from "../../config/Firebase";
+import React, { useState } from "react";
 import { useData } from "../../context/DataContext";
 import Dropdown from "./Dropdown";
 
@@ -11,22 +10,18 @@ const Searchbar = () => {
   const onClick = e=> {
     if(by.type === "name"){
       switch(open){
-        case(1):
-          setFiltered(products.sort((a,b)=> a.name.localeCompare(b.name)),true);
-          break;
-        case(0):
-          setFiltered(products.sort((a,b)=> b.name.localeCompare(a.name)),true);
-          break;
+        case(1): setFiltered(products.sort((a,b)=> a.name.localeCompare(b.name)),true);
+        break;
+        case(0): setFiltered(products.sort((a,b)=> b.name.localeCompare(a.name)),true);
+        break;
         default: setFiltered([],true)
       }
     } else if(by.type === "votes"){
       switch(open){
-        case(1):
-          setFiltered(products.sort((a,b)=> a.votes.length-b.votes.length),true);
-          break;
-        case(0):
-          setFiltered(products.sort((a,b)=> b.votes.length-a.votes.length),true);
-          break;
+        case(1): setFiltered(products.sort((a,b)=> a.votes.length-b.votes.length),true);
+        break;
+        case(0): setFiltered(products.sort((a,b)=> b.votes.length-a.votes.length),true);
+        break;
         default: setFiltered([],true);
       }
     }

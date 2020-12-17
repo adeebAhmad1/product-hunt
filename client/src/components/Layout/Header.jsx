@@ -27,6 +27,11 @@ const Header = () => {
               ROIOverload.com
             </a>
           </li>
+          <li className="nav-item mx-2">
+            <a href="https://forms.gle/7arehbmitp5ZVgGG7" className="nav-link active footer_link">
+              Add A Product
+            </a>
+          </li>
           {
             activeUser ? activeUser.role === "admin" ? <li className="nav-item mx-2">
             <NavLink exact to="/dashboard" activeClassName="active" className="nav-link footer_link">

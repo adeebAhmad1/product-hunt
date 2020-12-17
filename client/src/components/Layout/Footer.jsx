@@ -15,18 +15,18 @@ const Footer = () => {
               </a>
             </li>
             <li className="px-3 list-inline-item">
-              <a className="font-weight-bold text-white text-decoration-none text-uppercase footer_link" href="#home">Get Added</a>
+              <a className="font-weight-bold text-white text-decoration-none text-uppercase footer_link" href="https://forms.gle/7arehbmitp5ZVgGG7">Add A Product</a>
             </li>
             <li className="px-3 list-inline-item">
-            <a href="mailto:admin@roioverload.com" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Advertise With Us</a>
+              <a href="mailto:admin@roioverload.com" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Advertise With Us</a>
             </li>
           </ul>
         </div>
         <div className="py-4 row">
-          <span className="col-lg-6">
+          <div className="col-lg-6 py-2">
             © {new Date().getFullYear()} ROI Overload, <a href="https://scottdclary.com/terms" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Terms of Service</a>, <a href="https://scottdclary.com/privacy" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Privacy Policy</a>
-          </span>
-          <div className="col-lg-6">
+          </div>
+          <div className="col-lg-6 text-right py-2">
           <ul className="list-inline">
             <li className="list-inline-item px-3">
             <a href="https://facebook.com/roioverload" className="footer_link pb-2">
