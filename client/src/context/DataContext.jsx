@@ -8,6 +8,8 @@ class DataContextProvider extends Component {
   state = {
     products: [],
     productsLoaded: false,
+    comments: [],
+    commentsLoaded: false,
     categories: [],
     categoriesLoaded: false,
     filteredproducts: [],
@@ -66,10 +68,21 @@ class DataContextProvider extends Component {
       setTimeout(() => this.setState({allLoaded: true}), 100);
     }
   }
+  getComment = (productId)=>{
+    this.setState({commentsLoaded:false})
+    db.collection("comments").where("productId","==",productId).onSnapshot(snapShot=>{
+      const comments = [];
+      snapShot.forEach(doc=>{
+        const comment = doc.data();
+        comments.push(comment)
+      })
+      this.setState({comments,commentsLoaded:true});
+    })
+  }
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );

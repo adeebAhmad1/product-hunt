@@ -31,7 +31,7 @@ const Add = () => {
         seterror({message: `Product Must be deleted or not available in the database`});
       }
     }
-  },[])
+  },[data.products,id])
   const pattern = new RegExp(`^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$`,'i');
   const onSubmit = (e)=>{
     e.preventDefault();

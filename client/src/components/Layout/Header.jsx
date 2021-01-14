@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <nav id="header" style={{top: 0}} className="navbar shadow navbar-expand-lg position-sticky navbar-dark bg-primary p-3">
       <div className="container-fluid">
-      <Link to="/" className="text-light text-decoration-none mb-0 font-weight-bold h2">
+      <Link to="/" className="text-light text-decoration-none mb-0 font-weight-bold h1">
         Tech Kit
       </Link>
       <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}>
@@ -22,6 +22,13 @@ const Header = () => {
               Home
             </NavLink>
           </li>
+          {
+            isAuth && <li className="nav-item mx-2">
+            <NavLink exact to="/profile" activeClassName="active" className="nav-link footer_link">
+              Profile
+            </NavLink>
+          </li> 
+          }
           <li className="nav-item mx-2">
             <a href="https://roioverload.com" className="nav-link active footer_link">
               ROIOverload.com
@@ -33,11 +40,11 @@ const Header = () => {
             </a>
           </li>
           {
-            activeUser ? activeUser.role === "admin" ? <li className="nav-item mx-2">
+            activeUser?.role === "admin" && <li className="nav-item mx-2">
             <NavLink exact to="/dashboard" activeClassName="active" className="nav-link footer_link">
               Dashboard
             </NavLink>
-          </li> : "" : ""
+          </li>
           }
           <li className="nav-item mx-2">
             {

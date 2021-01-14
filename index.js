@@ -6,7 +6,7 @@ require("dotenv").config({ path: __dirname + "/varibles.env" });
 const app = express();
 const mc_api_key = process.env.MAILCHIMP_KEY;
 const list_id = process.env.LIST_ID;
-// const whitelist = ["https://localhost:9001","https://localhost:9001","https://productify1.herokuapp.com/"]
+// const whitelist = ["https://localhost:9001","https://localhost:9001","https://Tech Kit1.herokuapp.com/"]
 // const corsOptions = {
 //   origin: function (origin, callback) {
 //     console.log("** Origin of request " + origin)

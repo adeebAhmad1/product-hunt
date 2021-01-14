@@ -24,7 +24,7 @@ const Footer = () => {
         </div>
         <div className="py-4 row">
           <div className="col-lg-6 py-2">
-            © {new Date().getFullYear()} ROI Overload, <a href="https://scottdclary.com/terms" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Terms of Service</a>, <a href="https://scottdclary.com/privacy" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Privacy Policy</a>
+            © {new Date().getFullYear()} ROI Overload | <a href="https://scottdclary.com/terms" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Terms of Service</a> | <a href="https://scottdclary.com/privacy" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Privacy Policy</a>
           </div>
           <div className="col-lg-6 text-right py-2">
           <ul className="list-inline">

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "git": "git add . && git commit -m",
+    "postgit": "git push && git push heroku master"
   },
   "author": "adeeb ahmad",
   "license": "ISC",

@@ -1,6 +1,5 @@
 import firebase,{ db,googleProvider } from "../config/Firebase";
 import React, { useState, useEffect, createContext,useContext } from 'react';
-
 const AuthContext = createContext();
 
 export const useAuth = () =>  useContext(AuthContext);
@@ -38,10 +37,10 @@ const AuthContextProvider = ({children}) => {
     firebase.auth().signInWithEmailAndPassword(email,password).then(a=>resolve(a)).catch(err=> reject(err));
   }
   const currentUser = ()=> firebase.auth().currentUser;
-  const signup = (email,password,name,resolve,reject)=>{
+  const signup = (email,password,firstname,lastname,resolve,reject)=>{
     firebase.auth().createUserWithEmailAndPassword(email,password).then(a=>{
       if(a.additionalUserInfo.isNewUser){
-        db.collection("users").doc(a.uid).set({email: email,name: name,uid: a.user.uid,role: "user"}).then(()=>resolve(a))
+        db.collection("users").doc(a.uid).set({email: email,time: Date.now(),firstname,lastname,uid: a.user.uid,role: "user"}).then(()=>resolve(a))
       }
     }).catch(err=> reject(err));
   }
@@ -50,12 +49,19 @@ const AuthContextProvider = ({children}) => {
   }
   const googleLogin = ()=>{
     firebase.auth().signInWithPopup(googleProvider).then(result=>{
+      console.log(result)
       if(result.additionalUserInfo.isNewUser){
-        db.collection("users").doc(result.uid).set({email: result.user.email,name: result.user.displayName,uid: result.user.uid,role: "user"})
+        db.collection("users").doc(result.uid).set({email: result.user.email,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
       }
     })
   }
-  const value = {user,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin};
+  const reset = (email,res,rej)=>{
+    firebase.auth().sendPasswordResetEmail(email).then(el=>res(el)).catch(err=> rej(err))
+  }
+  const verify = (res,rej)=>{
+    firebase.auth().currentUser.sendEmailVerification().then((e)=>res(e)).catch((e)=> rej(e))
+  }
+  const value = {user,reset,verify,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin};
   return (
     <AuthContext.Provider value={value}>
       {children}

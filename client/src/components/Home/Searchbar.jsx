@@ -1,3 +1,4 @@
+import { Paper } from "@material-ui/core";
 import React, { useRef } from "react";
 import { useData } from "../../context/DataContext";
 
@@ -9,7 +10,7 @@ const Searchbar = () => {
     setFiltered(products.filter(el => el.name.toLowerCase().includes(search.current.value.toLowerCase())),true)
   }
   return (
-    <div className="p-4 rounded shadow container my-4">
+    <Paper className="p-4 rounded container my-4">
       <h4 className="text-center pb-3 font-weight-bold">
         Search Your Products
       </h4>
@@ -19,7 +20,7 @@ const Searchbar = () => {
           Search
         </button>
       </form>
-    </div>
+    </Paper>
   );
 };
 

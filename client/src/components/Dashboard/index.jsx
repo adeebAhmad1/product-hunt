@@ -2,124 +2,116 @@ import React from "react";
 import firebase from "../../config/Firebase";
 import { useData } from "../../context/DataContext";
 import { Link } from "react-router-dom";
+import { Button, ButtonGroup,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper } from "@material-ui/core";
 import "./dashboard.css"
+import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
+import CreateIcon from '@material-ui/icons/Create';
+
+const useRowStyles = makeStyles({
+  root: {
+    '& > *': {
+      borderBottom: 'unset',
+    },
+  },
+});
+
 const Dashboard = () => {
   const data = useData();
-  const truncate = (text)=>{
-    const myText = text || "";
-    if(myText.length > 15){
-      return myText.slice(0,15) + "...";
-    }
-    return myText;
-  }
-  const showData = (name) => {
-    const array = data[name]
-    if(array.length > 0){
-      return array.map((el,i) => {
-        return<tr key={i}>
-          <th scope="row">{i+1}</th>
-          <td>{el.subcategory}</td>
-          <td>{el.id}</td>
-          <td>
-          <div className="btn-group btn-group-toggle" data-toggle="buttons">
-            <button onClick={()=> data.delete(name,el.id)} style={{fontSize: `0.8rem`}} className="btn btn-danger">
-              Delete
-            </button>
-          </div>
-          </td>
-        </tr>;
-      });
-    } else{
-      return<tr>
-        <th colSpan="6">No Items to Show.... <Link to={"/panel/add/"+name} style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add {name} </Link></th>
-      </tr>
-    }
-  };
-  const showProducts = () => {
-    const name = "products";
-    if(data[name].length > 0){
-      return data[name].map((el,i) => {
-        return<tr key={i}>
-          <th scope="row"> {i+1} </th>
-          <td><img src={el.icon} style={{width: `50px`}} alt=""/></td>
-          <td>{truncate(el.name)}</td>
-          <td>{truncate(el.category)}</td>
-          <td>
-            <ul className="list-unstyled">
-            {el.versions.map((el,i)=> <li key={i}> {el} </li>)}
-            </ul>
-          </td>
-          <td>{truncate(el.minMembership)}</td>
-          <td>{truncate(el.description)}</td>
-          <td>{truncate(el.website)}</td>
-          <td>{el.votes.length}</td>
-          <td> 
-          <div className="btn-group btn-group-toggle" data-toggle="buttons">
-            <button onClick={()=>data.delete(name,el.id)} style={{fontSize: `0.8rem`}} className="btn btn-danger">
-              Delete
-            </button>
-            <Link style={{fontSize: `0.8rem`}} to={`/panel/edit/products/${el.id}`} className="btn btn-primary">
-              Edit
-            </Link>
-          </div>
-          </td>
-        </tr>;
-      });
-    } else{
-      return<tr>
-        <th colSpan="6">No Items to Show.... <Link to={"/panel/add/"+name}  style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add {name} </Link> </th>
-      </tr>
-    }
-  };
+  const classes = useRowStyles();
+
   return (
     <div style={{fontSize: `0.8rem`}}>
       <section className="pt-5">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-6">
-            <h1 className="font-weight-bold my-3 py-3">Categories</h1>
-          <table className="table table-responsive w-100">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Category</th>
-              <th>ID</th>
-              <th>Handlers</th>
-            </tr>
-          </thead>
-          <tbody>
-            {showData("categories")}
-          </tbody>
-        </table>
+        <div className="container">
+        <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell> Sr # </TableCell>
+              <TableCell align="right">Main Category</TableCell>
+              <TableCell align="right">Category</TableCell>
+              <TableCell align="right">ID</TableCell>
+              <TableCell align="right">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.categories.map((row,i) => (
+              <TableRow key={i} className={classes.root}>
+                <TableCell component="th" scope="row">
+                  {i+1}
+                </TableCell>
+                <TableCell align="right">{row.category}</TableCell>
+                <TableCell align="right">{row.subcategory}</TableCell>
+                <TableCell align="right">{row.id}</TableCell>
+                <TableCell align="right">
+                  <ButtonGroup className="btn-group">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{fontSize: `0.6rem`}}
+                      onClick={()=> ()=> data.delete("categories",row.id)}
+                    ><DeleteIcon /></Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
         <Link to="/panel/add/category" style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add Category </Link>
-          </div>
         </div>
-      </div>
       </section>
       <section className="pt-5">
       <div className="container pb-5">
         <h1 className="font-weight-bold my-3 py-3">Products</h1>
-        <table className="table table-responsive w-100">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Icon</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Versions</th>
-              <th>Min Membership</th>
-              <th>Description</th>
-              <th>website</th>
-              <th>Votes</th>
-              <th>Handlers</th>
-            </tr>
-          </thead>
-          <tbody>
-            {showProducts()}
-          </tbody>
-        </table>
-        <Link to={"/panel/add/products"} style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add Products </Link>
-        <button style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize mx-5 d-inline-block" onClick={()=> firebase.auth().signOut()}> Logout </button>
+        <TableContainer className="my-4" component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Sr#</TableCell>
+              <TableCell>Icon</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Versions</TableCell>
+              <TableCell>Min Membership</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>website</TableCell>
+              <TableCell>Votes</TableCell>
+              <TableCell>Handlers</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody style={{fontSize: `0.6rem`}}>
+            {data.products.map((el,i) => (
+              <TableRow key={i} className={classes.root}>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 70}} component="th" scope="row">
+                  {i+1}
+                </TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}><img src={el.icon} style={{width: `50px`}} alt=""/></TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.name}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.category}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 200}}>
+                  <ul className="list-unstyled">
+                  {el.versions.map((el,i)=> <li key={i}> {el} </li>)}
+                  </ul>
+                </TableCell>
+                <TableCell style={{fontSize: `0.8rem`}}>{el.minMembership}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 300}}>{el.description}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.website}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.votes.length}</TableCell>
+                <TableCell>
+                  <ButtonGroup className="btn-group">
+                    <Button variant="contained" color="secondary" style={{fontSize: `0.6rem`}} onClick={()=> data.delete("products",el.id)}><DeleteIcon /></Button>
+                    <Button component={Link} variant="contained" style={{fontSize: `0.6rem`}}  to={`/panel/edit/products/${el.id}`}><CreateIcon /></Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+        <Button component={Link} to={"/panel/add/products"} style={{fontSize: `0.8rem`}} className="text-white" variant="contained" color="primary">Add Businesses</Button>
+        <Button style={{fontSize: `0.8rem`}} className="mx-5 d-inline-block" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>
       </div>
       </section>
     </div>

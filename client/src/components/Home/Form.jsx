@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { Paper, Button, Container } from "@material-ui/core"
+import { Alert } from "@material-ui/lab"
 
 const Form = () => {
   const email = useRef();
@@ -19,45 +21,47 @@ const Form = () => {
           setloading(false);
           email.current.value = "";
           setSuccess("Email Successfully Registered")
-          setTimeout(() => setSuccess(false), 2000);
+          setTimeout(() => setSuccess(false), 4000);
         } else if(res.status >= 400){
           setloading(false);
           setError("There was a problem in loading the email. Please check your email again.");
-          setTimeout(() => setError(false), 2000);
+          setTimeout(() => setError(false), 4000);
+        } else{
+          console.log(res)
         }
       })
       .catch((err) => {
         setloading(false);
         console.log(err)
         setError("There was a problem in loading the email. Please check your email again.");
-        setTimeout(() => setError(false), 2000);
+        setTimeout(() => setError(false), 4000);
       });
     }
   };
   return (
-    <form action="/" method="POST" style={{minWidth: `300px`}} className="text-center w-50 mx-auto rounded shadow my-5" onSubmit={onSubmit}>
-      <div className="px-5 pt-5">
+    <Paper maxWidth="sm" component={Container} elevation={1} className="text-center rounded my-5">
+      <div className="pt-5">
         <h1 className="font-weight-bold">Tech Kit</h1>
-        <h3 className="font-weight-light">The largest directory of products, tools and resources for your next startup, project or side hustle.</h3>
+        <h5 className="font-weight-light">The largest directory of products, tools and resources for your next startup, project or side hustle.</h5>
         <h6 className="font-weight-bold">Join 19,706+ entrepreneurs, intrapreneurs, makers and side hustlers to get the best new tools, every week</h6>
       </div>
-      <div className="d-lg-flex d-block d-sm-block px-4 pb-5">
+      <form onSubmit={onSubmit} className="d-lg-flex d-block d-sm-block pb-5">
       <div className="col-lg-8 my-1">
-      <input type="email" required={true} className="form-control h-auto py-2 px-3" placeholder="Your Email" ref={email} id="email" />
+        <input type="email" required={true} className="form-control h-auto py-2 px-3" placeholder="Your Email" ref={email} id="email" />
       </div>
-      <div className="col-lg-4 my-1 text-center"><button disabled={loading} className="btn btn-primary shadow"> Subscribe Now </button></div>
-      </div>
+      <div className="col-lg-4 my-1 text-center px-lg-0"><Button disabled={loading} type="submit" variant="contained" className="px-0 w-100" color="primary" > Subscribe Now </Button></div>
+      </form>
       {
         success || error ? <div className="px-3 py-2">
-        {success ? <div className="alert alert-success">
+        {success ? <Alert severity="success">
           {success}
-        </div> : ""}
-        {error ? <div className="alert alert-danger">
+        </Alert> : ""}
+        {error ? <Alert severity="error">
           {error}
-        </div> : ""}
+        </Alert> : ""}
       </div> : "" 
       }
-    </form>
+    </Paper>
   );
 };
 

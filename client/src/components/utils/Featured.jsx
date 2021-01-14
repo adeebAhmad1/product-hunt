@@ -1,9 +1,10 @@
+import { Paper } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Featured = ({icon,name,category,versions,description,minMembership}) => {
   return (
-    <div className="featured-free bg-light my-3">
+    <Paper elevation={1} className="featured-free bg-light my-3">
       <div className="trello-box">
         <div className="meta">
           <Link to="/">
@@ -11,6 +12,7 @@ const Featured = ({icon,name,category,versions,description,minMembership}) => {
               <img
                 src={icon}
                 className=" ls-is-cached lazyloaded"
+                alt="lazy"
               />
             </div>
           </Link>
@@ -36,7 +38,7 @@ const Featured = ({icon,name,category,versions,description,minMembership}) => {
           </ul>
         </div>
       </div>
-    </div>
+    </Paper>
   );
 };
 
