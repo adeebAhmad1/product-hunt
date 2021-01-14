@@ -12,9 +12,9 @@ import { useAuth } from "../context/AuthContext";
 import Verification from '../components/Verification';
 import Profile from '../components/Profile';
 
-const PrivateRoutes = ({ role, component: Comp, ...rest }) => {
+const PrivateRoutes = ({ condition, component: Comp, ...rest }) => {
   return (
-    <Route {...rest} component={(props) => role === "admin" ? <Comp {...props} /> : <Redirect to="/login" />}/>
+    <Route {...rest} component={(props) => condition ? <Comp {...props} /> : <Redirect to="/login" />}/>
   );
 };
 
@@ -37,11 +37,11 @@ const Routes = () => {
       <PublicRoutes restricted={true} user={isAuth} component={Login} path="/login" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Forgot} path="/forgot" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Signup} path="/signup" exact />
-      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Dashboard} path="/dashboard" exact />
-      <PrivateRoutes role={ activeUser?.role} component={Profile} path="/profile" exact />
-      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Add} path="/panel/add/products" exact />
-      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={Add} path="/panel/edit/products/:id" exact />
-      <PrivateRoutes role={activeUser ? activeUser.role : "user"} component={AddCategory} path="/panel/add/category" exact />
+      <PrivateRoutes condition={activeUser?.role} component={Dashboard} path="/dashboard" exact />
+      <PrivateRoutes condition={isAuth} component={Profile} path="/profile" exact />
+      <PrivateRoutes condition={activeUser?.role} component={Add} path="/panel/add/products" exact />
+      <PrivateRoutes condition={activeUser?.role} component={Add} path="/panel/edit/products/:id" exact />
+      <PrivateRoutes condition={activeUser?.role} component={AddCategory} path="/panel/add/category" exact />
     </Switch>
   );
 };
