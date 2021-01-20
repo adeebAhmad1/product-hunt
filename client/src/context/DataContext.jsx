@@ -1,5 +1,5 @@
 import React, { Component, createContext, useContext } from "react";
-import { db } from "../config/Firebase";
+import firebase, { db,storage } from "../config/Firebase";
 const DataContext = createContext();
 
 export const useData = ()=> useContext(DataContext);
@@ -19,6 +19,14 @@ class DataContextProvider extends Component {
     pageLoaded: false,
     allLoaded: false
   };
+  addDp = (email,file,id,resolve,reject)=>{
+    storage.ref().child(`/users/${email}`).put(file).then(()=>{
+    storage.ref().child(`/users/${email}`).getDownloadURL().then(dp=>{
+      firebase.auth().currentUser.updateProfile({photoURL: dp});
+      db.collection("users").doc(id).update({dp}).then(resolve);
+    })
+    }).catch(reject)
+  }
   getData = (type,typeLoaded,isProducts)=>{
     this.setState({[typeLoaded]: false});
     const onSnapshot = snapShot=>{
@@ -119,7 +127,7 @@ class DataContextProvider extends Component {
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,addDp:this.addDp,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );

@@ -44,14 +44,14 @@ const AuthContextProvider = ({children}) => {
       }
     }).catch(err=> reject(err));
   }
-  const logout = ()=>{
-    firebase.auth().signOut();
+  const logout = (resolve)=>{
+    firebase.auth().signOut().then(resolve);
   }
   const googleLogin = ()=>{
     firebase.auth().signInWithPopup(googleProvider).then(result=>{
       console.log(result)
       if(result.additionalUserInfo.isNewUser){
-        db.collection("users").doc(result.uid).set({email: result.user.email,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+        db.collection("users").doc(result.uid).set({email: result.user.email,dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
       }
     })
   }
