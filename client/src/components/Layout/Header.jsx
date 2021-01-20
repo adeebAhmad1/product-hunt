@@ -7,7 +7,7 @@ const Header = () => {
   const { isAuth,logout,activeUser } = useAuth();
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
   return (
-    <nav id="header" style={{top: 0}} className="navbar shadow navbar-expand-lg position-sticky navbar-dark bg-primary p-3">
+    <nav id="header" style={{top: 0,zIndex: 1000}} className="navbar shadow navbar-expand-lg position-sticky navbar-dark bg-primary p-3">
       <div className="container-fluid">
       <Link to="/" className="text-light text-decoration-none mb-0 font-weight-bold h1">
         Tech Kit
@@ -43,6 +43,13 @@ const Header = () => {
             activeUser?.role === "admin" && <li className="nav-item mx-2">
             <NavLink exact to="/dashboard" activeClassName="active" className="nav-link footer_link">
               Dashboard
+            </NavLink>
+          </li>
+          }
+          {
+            activeUser?.role === "admin" && <li className="nav-item mx-2">
+            <NavLink exact to="/users" activeClassName="active" className="nav-link footer_link">
+              Users
             </NavLink>
           </li>
           }

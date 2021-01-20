@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useData } from '../../context/DataContext';
 import Comments from './Comments';
+import Product from './Product';
 
 const Details = () => {
-  const { id } = useParams()
+  const { id } = useParams();
+  const [product,setProduct] = useState(null)
+  const { products } = useData();
+  useEffect(()=>{
+    if(id) {
+      const product = products.find(el=> el.id === id);
+      if(product) setProduct(product);
+    }
+  },[id,products])
   return (
-    <div>
-      <Comments id={id} />
+    <div className="bg-light">
+      <Product {...product} />
+      {product && <Comments id={id} />}
     </div>
   );
 };

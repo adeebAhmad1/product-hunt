@@ -6,13 +6,13 @@ import { Alert } from "@material-ui/lab";
 import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 const Comments = ({ id }) => {
-  const { addData, comments, getComment } = useData();
+  const { updateData,addData, comments,commentsLoaded,delete: deleteData, getComment } = useData();
   const { user,isAuth } = useAuth();
   const [error, setError] = useState();
   const comment = useRef();
   useEffect(() => {
     getComment(id);
-  }, []);
+  }, [getComment,id]);
   const onSubmit = (e) => {
     e.preventDefault();
     const value = {
@@ -22,17 +22,11 @@ const Comments = ({ id }) => {
       comment: comment.current.value,
       time: Date.now(),
       dp: user.photoURL,
-      replies: [],
     };
-    addData("comments",value,() => {},(error) => setError(error));
+    addData("comments",value,() => comment.current.value = "",(error) => setError(error));
   };
   return (
     <Container maxWidth="md">
-      <ul id="comments-list" className="comments-list list-unstyled">
-        {comments?.map((el, i) => (
-          <Comment key={i} {...el} />
-        ))}
-      </ul>
       {
         isAuth && <form onSubmit={onSubmit} className="px-lg-5 py-3 d-flex">
           <TextField id="comment" inputRef={comment} required variant="filled" className="w-100" label="Comment" multiline />
@@ -44,6 +38,11 @@ const Comments = ({ id }) => {
         </form>
       }
       {error && <Alert severity="error">{error.message}</Alert>}
+      {commentsLoaded && <ul id="comments-list" className="comments-list list-unstyled">
+        {comments?.map((el, i) => (
+          <Comment update={updateData} deleteData={deleteData} key={i} {...el} />
+        ))}
+      </ul>}
     </Container>
   );
 };

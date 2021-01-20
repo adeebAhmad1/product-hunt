@@ -2,7 +2,7 @@ import { Paper } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Featured = ({icon,name,category,versions,description,minMembership}) => {
+const Featured = ({icon,tag,name,id,category,versions,description,minMembership}) => {
   return (
     <Paper elevation={1} className="featured-free bg-light my-3">
       <div className="trello-box">
@@ -17,9 +17,9 @@ const Featured = ({icon,name,category,versions,description,minMembership}) => {
             </div>
           </Link>
           <div className="tool-meta">
-            <span className="span_tag featured">Featured</span>
+            <span className="span_tag featured">{tag}</span>
             <h6>
-              <Link to="/" className="text-decoration-none font-weight-bold">{name}</Link>
+              <Link to={`/product/${id}`} className="text-decoration-none font-weight-bold">{name}</Link>
             </h6>
             <div className="cate font_small">for <span className="text-primary">{category}</span></div>
           </div>

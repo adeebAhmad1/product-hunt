@@ -10,6 +10,8 @@ class DataContextProvider extends Component {
     productsLoaded: false,
     comments: [],
     commentsLoaded: false,
+    replies: [],
+    repliesLoaded: false,
     categories: [],
     categoriesLoaded: false,
     filteredproducts: [],
@@ -47,6 +49,17 @@ class DataContextProvider extends Component {
     if(category) return db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);
     else return db.collection("products").onSnapshot(onSnapshot);
   }
+  getUserProducts =(id,set)=>{
+    db.collection("products").where("votes","array-contains",id).onSnapshot(snapShot=>{
+      const filteredproducts = [];
+      snapShot.forEach(doc=>{
+        const data = doc.data();
+        data.id = doc.id;
+        filteredproducts.push(data);
+      });
+      set(filteredproducts)
+    })
+  }
   setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
   updateData = (type,id,update,resolve,reject)=>{
     db.collection(type).doc(id).update(update).then(resolve).catch(reject);
@@ -74,15 +87,39 @@ class DataContextProvider extends Component {
       const comments = [];
       snapShot.forEach(doc=>{
         const comment = doc.data();
+        comment.id = doc.id
         comments.push(comment)
       })
+      comments.sort((a,b)=> b.time - a.time);
       this.setState({comments,commentsLoaded:true});
     })
+  }
+  getReplies = (commentId,setReplies)=>{
+    db.collection("comments").doc(commentId).collection("replies").onSnapshot(snapShot=>{
+      console.log(snapShot)
+      const replies = [];
+      snapShot.forEach(doc=>{
+        const reply = doc.data();
+        reply.id = doc.id
+        replies.push(reply)
+      })
+      replies.sort((a,b)=> a.time - b.time);
+      setReplies(replies)
+    })
+  }
+  setReplies = (commentId,value,resolve,reject)=>{
+    db.collection("comments").doc(commentId).collection("replies").add(value).then(resolve).catch(reject)
+  }
+  updateReply = (commentId,replyId,value,resolve,reject)=>{
+    db.collection("comments").doc(commentId).collection("replies").doc(replyId).update(value).then(resolve).catch(reject)
+  }
+  deleteReply = (commentId,replyId,resolve,reject)=>{
+    db.collection("comments").doc(commentId).collection("replies").doc(replyId).delete().then(resolve).catch(reject)
   }
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );

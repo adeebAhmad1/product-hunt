@@ -11,6 +11,7 @@ import Forgot from '../components/Forgot';
 import { useAuth } from "../context/AuthContext";
 import Verification from '../components/Verification';
 import Profile from '../components/Profile';
+import Users from '../components/Users';
 
 const PrivateRoutes = ({ condition, component: Comp, ...rest }) => {
   return (
@@ -37,11 +38,12 @@ const Routes = () => {
       <PublicRoutes restricted={true} user={isAuth} component={Login} path="/login" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Forgot} path="/forgot" exact />
       <PublicRoutes restricted={true} user={isAuth} component={Signup} path="/signup" exact />
-      <PrivateRoutes condition={activeUser?.role} component={Dashboard} path="/dashboard" exact />
+      <PrivateRoutes condition={activeUser?.role === "admin"} component={Dashboard} path="/dashboard" exact />
       <PrivateRoutes condition={isAuth} component={Profile} path="/profile" exact />
-      <PrivateRoutes condition={activeUser?.role} component={Add} path="/panel/add/products" exact />
-      <PrivateRoutes condition={activeUser?.role} component={Add} path="/panel/edit/products/:id" exact />
-      <PrivateRoutes condition={activeUser?.role} component={AddCategory} path="/panel/add/category" exact />
+      <PrivateRoutes condition={activeUser?.role === "admin"} component={Add} path="/panel/add/products" exact />
+      <PrivateRoutes condition={activeUser?.role === "admin"} component={Users} path="/users" exact />
+      <PrivateRoutes condition={activeUser?.role === "admin"} component={Add} path="/panel/edit/products/:id" exact />
+      <PrivateRoutes condition={activeUser?.role === "admin"} component={AddCategory} path="/panel/add/category" exact />
     </Switch>
   );
 };

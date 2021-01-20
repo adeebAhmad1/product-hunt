@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Paper,Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import {ChevronRight} from '@material-ui/icons';
-const Product = ({ website, id, name, icon,versions, category,votes }) => {
+const Product = ({ website, id, name, icon,versions, category,votes=[] }) => {
   const [voted,setVoted] = useState(false);
   const { updateData } = useData();
   const [error,setError] = useState(false);

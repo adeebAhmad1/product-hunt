@@ -1,10 +1,17 @@
-import { Switch } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useData } from "../../context/DataContext";
+import Featured from "../utils/Featured";
+import { Paper } from '@material-ui/core';
 
 const Profile = () => {
   const { activeUser } = useAuth();
+  const { getUserProducts } = useData();
+  const [likedProducts,setLikedProducts] = useState([]);
+  useEffect(()=>{
+    getUserProducts(activeUser.uid,setLikedProducts)
+  },[]);
   return (
     <div className="py-5">
       <div className="container emp-profile mt-5">
@@ -56,6 +63,9 @@ const Profile = () => {
           </div>
         </div>
       </form>
+      <div className="row my-4">
+        {likedProducts.map((el,i)=> <div className="col-lg-4"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
+      </div>
     </div>
     </div>
   );

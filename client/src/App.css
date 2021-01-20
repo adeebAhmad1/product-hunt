@@ -115,7 +115,7 @@ th {
 
 th,
 td {
-  font-family: Montserrat !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .voting_arrow {
@@ -558,17 +558,6 @@ footer {
   border-radius: 4px 4px 0 0;
 }
 
-.comment-box .comment-head svg {
-  float: right;
-  margin-left: 14px;
-  position: relative;
-  top: 2px;
-  color: #a6a6a6;
-  cursor: pointer;
-  -webkit-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
-  transition: color 0.3s ease;
-}
 
 .comment-box .comment-head i:hover {
   color: #03658c;
@@ -681,6 +670,10 @@ footer {
   top: 10px;
 }
 
+.mont{
+  font-family: Montserrat !important;
+}
+
 .span_tag:hover {
   transform: translateY(-3px);
   box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.4);
@@ -693,4 +686,23 @@ footer {
 
 a {
   color: var(--primary);
+}
+.section_product{
+  min-height: 100vh;
+  
+}
+
+.crumb{
+  min-height: 65vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.616),rgba(0, 0, 0, 0.767)),url(./resources/product.jpg);
+  background-position: bottom;
+  background-size: cover;
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crumb *{
+  color: #fff;
 }
