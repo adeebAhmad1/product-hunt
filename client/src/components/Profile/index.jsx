@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(()=>{
     setImg(activeUser?.dp);
     getUserProducts(activeUser?.uid,setLikedProducts)
-  },[activeUser]);
+  },[activeUser,getUserProducts]);
   const crop = (url, aspectRatio = 1) => {
     return new Promise(resolve => {
       // this image will hold our source image data

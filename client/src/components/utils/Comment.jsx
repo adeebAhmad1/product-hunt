@@ -14,7 +14,7 @@ const Comment = ({reply = false,update,deleteData,name,id,uid,comment,dp,time = 
   const { updateReply,setReplies,getReplies,deleteReply } = useData();
   useEffect(()=>{
     !reply && getReplies(id,setReply);
-  },[getReplies,id])
+  },[getReplies,id,reply])
   const { user,isAuth } = useAuth();
   const replyInput = useRef();
   const editInput = useRef();
