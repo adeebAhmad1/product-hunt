@@ -64,14 +64,14 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
             {error ? <Alert severity="error" className="alert alert-danger">{error.message}</Alert> : "" }
           </div>
         </div>
-        <div className="row mx-0">
+        <div className="row">
           <div className="col-lg-8">
-          <Paper className="p-2">
+          <Paper className="p-3">
             Minimum Paid Membership is {minMembership} per month
           </Paper>
           </div>
           <div className="col-lg-4">
-          <Paper className="p-2">
+          <Paper className="p-3">
             <Button variant="contained" component="a" href={website} color="primary" >Visit Website</Button> 
           </Paper>
           </div>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Featured = ({icon,tag,name,id,category,versions,description,minMembership}) => {
   return (
-    <Paper elevation={1} className="featured-free bg-light my-3">
+    <Paper elevation={1} className="featured-free bg-light">
       <div className="trello-box">
         <div className="meta">
           <Link to="/">

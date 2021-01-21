@@ -98,7 +98,6 @@ nav {
 .btn-category:last-child {
   margin-left: 0.5rem;
 }
-
 .icon {
   width: 6rem;
   height: 6rem;
@@ -106,7 +105,11 @@ nav {
   background-position: center;
   border-radius: 50%;
   min-width: 6rem;
-  transform: translateX(-3.3rem);
+}
+@media (min-width: 992px){
+  .icon {
+    transform: translateX(-3.3rem);
+  }
 }
 
 th {

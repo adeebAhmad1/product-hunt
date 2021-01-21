@@ -34,19 +34,19 @@ const Product = ({ website, id, name, icon,versions, category,votes=[] }) => {
         <div>
           <div className="">
           <div className="row">
-            <div className="col-lg-7 font-weight-bold py-2">
+            <div className="col-lg-7 col-12 font-weight-bold py-2">
               <h4> <a className="text-decoration-none font-weight-bold text-dark" href={website}>{name}</a> </h4>
               <p className="mb-1">
                 <span className="span_tag">{category}</span>
                 {versions.map(el=> <span key={el} className="span_tag"> {el} </span>)}
               </p>
             </div>
-            <div className="col-lg-3 p-3">
+            <div className="col-lg-3 col-6 p-3">
               <Button component={Link} to={`/product/${id}`} className="text-white" color="primary" variant="contained">
                 Learn More <ChevronRight />
               </Button>
             </div>
-            <div className="col-lg-2 py-2 d-flex text-center">
+            <div className="col-lg-2 col-6 py-2 d-flex text-center">
               <div>
                 <Button onClick={toggleVote} className="p-2" color="primary" variant={voted ? "contained" : "outlined"}>
                   <span className="voting_arrow"></span>

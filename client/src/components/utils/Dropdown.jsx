@@ -11,7 +11,7 @@ const Dropdown = ({class2,heading,options,subheading,set}) => {
   </li>
   })
   return (
-        <div className={ (open ? "drop-down--active" : "")+ " drop-down px-0 col-lg-8 "+ class2}>
+        <div className={ (open ? "drop-down--active" : "")+ " drop-down px-0 col-9 "+ class2}>
           <div id="dropDown" onClick={()=> setOpen(o=> !o)} className={"drop-down__button w-100 d-flex py-3 px-4 "}>
             <span className="drop-down__name text-dark">
               <h5 className="font-weight-bold">{heading}</h5>
