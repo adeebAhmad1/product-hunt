@@ -6,17 +6,25 @@ import {
   TextField,
   IconButton,
   Button,
-  Paper
+  Paper,makeStyles
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab"
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import MailIcon from "@material-ui/icons/Mail";
+import FacebookIcon from '@material-ui/icons/Facebook';
+const useStyles = makeStyles({
+  button: {
+    backgroundColor: `#4267B2`
+  }
+})
+
 
 const Signup = () => {
-  const { signup, googleLogin } = useAuth();
+  const { signup,googleLogin,facebookLogin } = useAuth();
   const [error, setError] = useState();
   const [showp, setshowp] = useState();
+  const classes = useStyles();
   const [showcp, setshowcp] = useState();
   const email = useRef();
   const password = useRef();
@@ -42,18 +50,12 @@ const Signup = () => {
     <div className="container pt-3 pb-5 ">
       <Paper elevation={5}
         className="form bg-white text-center mx-auto"
-        style={{ width: `450px`, minWidth: 250 }}
+        style={{ width: `100%`, maxWidth: `500px` }}
       >
         <h1 className="mt-2 mb-3">Welcome !</h1>
-        <div className="mb-3">
-          <Button
-            color="secondary"
-            variant="contained"
-            startIcon={<MailIcon />}
-            onClick={googleLogin}
-          >
-            Signup With Google
-          </Button>
+        <div className="mb-3 d-flex">
+        <Button color="secondary" className="w-50 py-2 mr-1" variant="contained" startIcon={<MailIcon />} onClick={googleLogin} >Login With Google</Button>
+        <Button color="primary" className={"w-50 py-2 ml-1 "+ classes.button} variant="contained" startIcon={<FacebookIcon />} onClick={facebookLogin} >Login With Facebook</Button>
         </div>
         <form onSubmit={onSubmit} className="row justify-content-center">
           <div className="col-sm-6 py-2">

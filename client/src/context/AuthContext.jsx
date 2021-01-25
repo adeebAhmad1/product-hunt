@@ -1,4 +1,4 @@
-import firebase,{ db,googleProvider } from "../config/Firebase";
+import firebase,{ db,facebookProvider,googleProvider } from "../config/Firebase";
 import React, { useState, useEffect, createContext,useContext } from 'react';
 const AuthContext = createContext();
 
@@ -55,13 +55,21 @@ const AuthContextProvider = ({children}) => {
       }
     })
   }
+  const facebookLogin = ()=>{
+    firebase.auth().signInWithPopup(facebookProvider).then(result=>{
+      console.log(result)
+      if(result.additionalUserInfo.isNewUser){
+        db.collection("users").doc(result.uid).set({email: result.user.email,dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+      }
+    })
+  }
   const reset = (email,res,rej)=>{
     firebase.auth().sendPasswordResetEmail(email).then(el=>res(el)).catch(err=> rej(err))
   }
   const verify = (res,rej)=>{
     firebase.auth().currentUser.sendEmailVerification().then((e)=>res(e)).catch((e)=> rej(e))
   }
-  const value = {user,reset,verify,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin};
+  const value = {user,reset,facebookLogin,verify,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin};
   return (
     <AuthContext.Provider value={value}>
       {children}

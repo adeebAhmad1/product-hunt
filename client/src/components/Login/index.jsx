@@ -1,22 +1,27 @@
-import { InputAdornment, TextField, IconButton,Button } from "@material-ui/core";
+import { InputAdornment, TextField, IconButton,Button,makeStyles } from "@material-ui/core";
 import React, { useRef,useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import MailIcon from '@material-ui/icons/Mail';
+import FacebookIcon from '@material-ui/icons/Facebook';
 import "./login.css"
 
+const useStyles = makeStyles({
+  button: {
+    backgroundColor: `#4267B2`
+  }
+})
+
 const Login = () => {
-  const { login,googleLogin } = useAuth();
+  const { login,googleLogin,facebookLogin } = useAuth();
   const [error,setError] = useState(null)
   const [show,setShow] = useState(null)
   const email = useRef(null);
   const password = useRef(null);
   const reject = error=>setError(error);
-  useEffect(()=>{
-    console.log({email,password})
-  },[])
+  const classes = useStyles()
   const onSubmit = (e)=>{
     e.preventDefault();
     console.log({email,password})
@@ -27,7 +32,8 @@ const Login = () => {
     <div className="d-flex justify-content-center align-items-center py-5" >
       <div className="form bg-white shadow-lg pt-3 pb-5">
       <h1 className="h1 mt-2 mb-4">Welcome Back !</h1>
-      <Button color="secondary" variant="contained" startIcon={<MailIcon />} onClick={()=>googleLogin(true)} >Login With Google</Button>
+      <Button color="secondary" className="w-100 py-2 my-2" variant="contained" startIcon={<MailIcon />} onClick={googleLogin} >Login With Google</Button>
+      <Button color="primary" className={"w-100 py-2 my-2 "+ classes.button} variant="contained" startIcon={<FacebookIcon />} onClick={facebookLogin} >Login With Facebook</Button>
       <form onSubmit={onSubmit}>
       <div className="py-2">
         <TextField label="Email" className="w-100" required inputRef={email} id="email" type="email" />
