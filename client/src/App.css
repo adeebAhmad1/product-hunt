@@ -697,15 +697,10 @@ a {
 
 .crumb{
   min-height: 65vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.616),rgba(0, 0, 0, 0.767)),url(./resources/product.jpg);
   background-position: bottom;
   background-size: cover;
   margin-bottom: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.crumb *{
-  color: #fff;
 }
