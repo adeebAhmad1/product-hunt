@@ -7,7 +7,7 @@ import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 const Comments = ({ id }) => {
   const { updateData,addData, comments,commentsLoaded,delete: deleteData, getComment } = useData();
-  const { user,isAuth } = useAuth();
+  const { user,isAuth,activeUser } = useAuth();
   const [error, setError] = useState();
   const comment = useRef();
   useEffect(() => {
@@ -19,6 +19,7 @@ const Comments = ({ id }) => {
       name: user.displayName,
       productId: id,
       uid: user.uid,
+      userDocId: activeUser.id,
       comment: comment.current.value,
       time: Date.now(),
       dp: user.photoURL,

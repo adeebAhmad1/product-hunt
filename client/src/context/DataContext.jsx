@@ -118,6 +118,13 @@ class DataContextProvider extends Component {
   setReplies = (commentId,value,resolve,reject)=>{
     db.collection("comments").doc(commentId).collection("replies").add(value).then(resolve).catch(reject)
   }
+  getUser = (uid,setImg,setName)=>{
+    db.collection("users").doc(uid).onSnapshot(doc=>{
+      const data = doc.data();
+      setName(`${data.firstname} ${data.lastname}`);
+      setImg(data.dp);
+    })
+  }
   updateReply = (commentId,replyId,value,resolve,reject)=>{
     db.collection("comments").doc(commentId).collection("replies").doc(replyId).update(value).then(resolve).catch(reject)
   }
@@ -127,7 +134,7 @@ class DataContextProvider extends Component {
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,addDp:this.addDp,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,getUser: this.getUser,addDp:this.addDp,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );
