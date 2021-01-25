@@ -22,27 +22,30 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Typography } from '@material-ui/core';
 import icon from '../../resources/icon.png';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  nested: {
-    paddingLeft: theme.spacing(4),
-  },
-  small: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-    fontSize: `0.9rem`
-  },
-  main: {
-    paddingLeft: theme.spacing(2),
-    minWidth: `250px`,
-    width: `280px`,
-    height: `60px`
-  }
-}));
+const useStyles = makeStyles((theme) => {
+  console.log(theme)
+  return ({
+    root: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+    },
+    nested: {
+      paddingLeft: theme.spacing(4),
+    },
+    small: {
+      width: theme.spacing(4),
+      height: theme.spacing(4),
+      fontSize: `0.9rem`
+    },
+    main: {
+      paddingLeft: theme.spacing(2),
+      minWidth: `250px`,
+      width: `280px`,
+      height: `60px`
+    }
+  })
+});
 
 
 const SideDrawer = (props) => {
@@ -89,7 +92,7 @@ const SideDrawer = (props) => {
           {isAuth ? <>
             <ListItem button className={classes.main} onClick={()=>setOpen(!open)}>
               <ListItemIcon>
-                {user?.photoURL ?<Avatar className={classes.small} src={user.photoURL} alt={activeUser.firstname} /> : <Avatar className={classes.small}> {activeUser?.firstname?.[0]} </Avatar>}
+                {user?.photoURL ?<Avatar className={classes.small} src={activeUser?.dp} alt={activeUser.firstname} /> : <Avatar className={classes.small}> {activeUser?.firstname?.[0]} </Avatar>}
               </ListItemIcon>
               <ListItemText primary={activeUser.firstname} />
               {open ? <ExpandLess /> : <ExpandMore />}

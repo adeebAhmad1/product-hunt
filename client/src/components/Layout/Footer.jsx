@@ -5,19 +5,19 @@ const Footer = () => {
     <footer>
       <div className="container px-3">
         <div className="mb-4 text-center">
-          <ul className="list-inline">
-            <li className="px-3 list-inline-item">
+          <ul className="list-inline d-inline-block text-left">
+            <li className="px-3 py-2 list-inline-item">
               <a className="font-weight-bold text-white text-decoration-none text-uppercase footer_link" href="#home">Home</a>
             </li>
-            <li className="px-3 list-inline-item">
+            <li className="px-3 py-2 list-inline-item">
               <a href="https://roioverload.com" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">
                 ROIOverload.com
               </a>
             </li>
-            <li className="px-3 list-inline-item">
+            <li className="px-3 py-2 list-inline-item">
               <a className="font-weight-bold text-white text-decoration-none text-uppercase footer_link" href="https://forms.gle/7arehbmitp5ZVgGG7">Add A Product</a>
             </li>
-            <li className="px-3 list-inline-item">
+            <li className="px-3 py-2 list-inline-item">
               <a href="mailto:admin@roioverload.com" className="font-weight-bold text-white text-decoration-none text-uppercase footer_link">Advertise With Us</a>
             </li>
           </ul>
