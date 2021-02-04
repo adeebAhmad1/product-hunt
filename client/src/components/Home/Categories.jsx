@@ -10,7 +10,7 @@ const Categories = () => {
       const obj = {category};
       obj.categories = [];
       categories.forEach(el=>{
-        if(category === el.category) return obj.categories.push(el.subcategory)
+        if(category === el.category) return obj.categories.push({...el})
       });
       return obj
     })

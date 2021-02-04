@@ -57,7 +57,7 @@ const Add = () => {
       seterror({message: "Please Enter a valid website URL"})
     }
   };
-  const map = (array)=> array.map((el,i)=> <option key={i} value={el.subcategory}>{el.subcategory}</option>)
+  const map = (array)=> array.map((el,i)=> <option key={i} value={el.id}>{el.subcategory}</option>)
   return (
     <div className="d-flex justify-content-center align-items-center py-5">
       <form onSubmit={onSubmit} className="form">

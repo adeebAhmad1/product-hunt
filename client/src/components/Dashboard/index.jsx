@@ -45,21 +45,22 @@ const Dashboard = () => {
                 <TableCell align="right">{row.subcategory}</TableCell>
                 <TableCell align="right">{row.id}</TableCell>
                 <TableCell align="right">
-                  <ButtonGroup className="btn-group">
-                    <Button
+                    {
+                      !data.products.find(el=> el.category === row.id) && <Button
                       variant="contained"
                       color="secondary"
                       style={{fontSize: `0.6rem`}}
-                      onClick={()=> ()=> data.delete("categories",row.id)}
-                    ><DeleteIcon /></Button>
-                  </ButtonGroup>
+                      onClick={()=> data.delete("categories",row.id)}
+                    ><DeleteIcon />
+                  </Button>
+                    }
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-        <Link to="/panel/add/category" style={{fontSize: `0.8rem`}} className="btn btn-primary text-capitalize">Add Category </Link>
+        <Button to="/panel/add/category" variant="contained" color="primary" className="text-white mont font-weight-light my-3" component={Link}>Add Category</Button>
         </div>
       </section>
       <section className="pt-5">
@@ -89,7 +90,7 @@ const Dashboard = () => {
                 </TableCell>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}><img src={el.icon} style={{width: `50px`}} alt=""/></TableCell>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.name}</TableCell>
-                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.category}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{ data.categories?.find(row=> row.id === el.category)?.subcategory }</TableCell>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 200}}>
                   <ul className="list-unstyled">
                   {el.versions.map((el,i)=> <li key={i}> {el} </li>)}
@@ -101,8 +102,8 @@ const Dashboard = () => {
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.votes.length}</TableCell>
                 <TableCell>
                   <ButtonGroup className="btn-group">
-                    <Button variant="contained" color="secondary" style={{fontSize: `0.6rem`}} onClick={()=> data.delete("products",el.id)}><DeleteIcon /></Button>
-                    <Button component={Link} variant="contained" style={{fontSize: `0.6rem`}}  to={`/panel/edit/products/${el.id}`}><CreateIcon /></Button>
+                    <Button variant="contained" color="secondary" onClick={()=> data.delete("products",el.id)}><DeleteIcon /></Button>
+                    <Button component={Link} variant="contained"  to={`/panel/edit/products/${el.id}`}><CreateIcon /></Button>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>
@@ -110,8 +111,8 @@ const Dashboard = () => {
           </TableBody>
         </Table>
       </TableContainer>
-        <Button component={Link} to={"/panel/add/products"} style={{fontSize: `0.8rem`}} className="text-white" variant="contained" color="primary">Add Businesses</Button>
-        <Button style={{fontSize: `0.8rem`}} className="mx-5 d-inline-block" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>
+        <Button component={Link} to={"/panel/add/products"} className="text-white mont font-weight-light" variant="contained" color="primary">Add Businesses</Button>
+        <Button className="mx-5 d-inline-block mont font-weight-light" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>
       </div>
       </section>
     </div>

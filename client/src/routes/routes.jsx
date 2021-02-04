@@ -21,7 +21,7 @@ const PrivateRoutes = ({ condition, component: Comp, ...rest }) => {
 
 const PublicRoutes = ({ user, component: Comp, ...rest }) => {
   return (
-    <Route {...rest} component={(props) => rest.restricted ? (user ? (<Redirect to="/" />) : (<Comp {...props} />)) : (<Comp {...props} />)}/>
+    <Route {...rest} component={(props) => rest.restricted ? (user ? (<Redirect to="/dashboard" />) : (<Comp {...props} />)) : (<Comp {...props} />)}/>
   );
 };
 

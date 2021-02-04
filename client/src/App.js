@@ -7,9 +7,22 @@ import Header from "./components/Layout/Header";
 import AuthContextProvider from "./context/AuthContext";
 import DataContextProvider from "./context/DataContext";
 import Routes from "./routes/routes";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const App = () => (
-  <BrowserRouter>
+const App = () => {
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const theme = React.useMemo(
+  //   () =>
+  //     createMuiTheme({
+  //       palette: {
+  //         type: prefersDarkMode ? 'dark' : 'light',
+  //       },
+  //     }),
+  //   [prefersDarkMode],
+  // );
+  return (
+    <BrowserRouter>
     <AuthContextProvider>
       <DataContextProvider>
         <div className="App">
@@ -21,5 +34,5 @@ const App = () => (
     </AuthContextProvider>
   </BrowserRouter>
 );
-
+}
 export default App;

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Product = ({icon,votes=[],id,name,minMembership,website,description,versions,category}) => {
   const [error,setError] = useState(false);
   const [voted,setVoted] = useState(false);
-  const { updateData } = useData();
+  const { updateData,categories } = useData();
   const {user: {uid}} = useAuth()
   useEffect(()=>{
     setVoted(votes.includes(uid))
@@ -55,7 +55,7 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
             </Paper>
             <div className="row my-3">
               {versions?.map(el=> <div className="col-lg-4"><Paper className="py-3 text-center bg-white rounded"><Chip variant="outlined" color="primary" label={el} avatar={<Avatar>{el[0]}</Avatar>} /></Paper></div>)}
-              <div className="col-lg-4"><Paper className="py-3 text-center bg-white rounded"><Chip variant="outlined" color="primary" label={category} avatar={<Avatar>{category?.[0]}</Avatar>} /></Paper></div>
+              <div className="col-lg-4"><Paper className="py-3 text-center bg-white rounded"><Chip variant="outlined" color="primary" label={categories.find(el=> el.id === category)?.subcategory} avatar={<Avatar>{categories.find(el=> el.id === category)?.subcategory?.[0]}</Avatar>} /></Paper></div>
             </div>
           </div>
         </div>

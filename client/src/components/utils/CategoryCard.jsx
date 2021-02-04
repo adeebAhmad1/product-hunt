@@ -10,7 +10,7 @@ const CategoryCard = ({category,categories}) => {
         {category}
       </button>
       {show ? <ul className="list-unstyled ml-3">
-        {categories.map((el,i)=> <li> <button key={i} onClick={()=> getFiltered(null,el)} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold"> {el} </button> </li> )}
+        {categories.map((el,i)=> <li> <button key={i} onClick={()=> getFiltered(null,el.id)} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold"> {el.subcategory} </button> </li> )}
       </ul> : "" }
     </div>
   );
