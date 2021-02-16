@@ -3,11 +3,18 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useData } from "../../context/DataContext";
 import Featured from "../utils/Featured";
-import { Paper,Button } from '@material-ui/core';
+import { Paper,Button,makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme=> ({
+  p: {
+    color: theme.palette.primary.main
+  }
+}))
 
 const Profile = () => {
   const { activeUser,user } = useAuth();
   const { getUserProducts,addDp } = useData();
+  const classes = useStyles();
   const [likedProducts,setLikedProducts] = useState([]);
   const [img,setImg] = useState(null);
   const [fileSelected,setfileSelected] = useState(null);
@@ -69,7 +76,7 @@ const Profile = () => {
   }
   return (
     <div className="py-5">
-      <div className="container emp-profile mt-5">
+      <Paper className="container emp-profile mt-5">
       <div>
         <div className="row">
           <div className="col-md-4 text-center">
@@ -99,7 +106,7 @@ const Profile = () => {
               <h3>{activeUser.firstname} {activeUser.lastname}</h3>
               <ul className="nav nav-tabs" id="myTab" role="tablist">
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link active">About</Link>
+                  <Paper component={Link} to="/profile" className={"nav-link "+ classes.p}>About</Paper>
                 </li>
               </ul>
             </div>
@@ -111,7 +118,7 @@ const Profile = () => {
                     <label>First Name</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{activeUser.firstname}</p>
+                    <p className={classes.p}>{activeUser.firstname}</p>
                   </div>
                 </div>
                 <div className="row">
@@ -119,7 +126,7 @@ const Profile = () => {
                     <label>Last Name</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{activeUser.lastname}</p>
+                    <p className={classes.p}>{activeUser.lastname}</p>
                   </div>
                 </div>
                 <div className="row">
@@ -127,7 +134,7 @@ const Profile = () => {
                     <label>Email</label>
                   </div>
                   <div className="col-md-6">
-                    <p>{activeUser.email}</p>
+                    <p className={classes.p}>{activeUser.email}</p>
                   </div>
                 </div>
               </div>
@@ -138,7 +145,7 @@ const Profile = () => {
       <div className="row my-4">
         {likedProducts.map((el,i)=> <div className="col-lg-4"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
       </div>
-    </div>
+    </Paper>
     </div>
   );
 };
