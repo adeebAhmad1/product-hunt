@@ -15,7 +15,7 @@ const Details = () => {
     }
   },[id,products])
   return (
-    <div className="bg-light">
+    <div>
       <Product {...product} />
       {product && <Comments id={id} />}
     </div>

@@ -7,6 +7,7 @@ import { Typography,Container,Paper,Button,Avatar,Chip,Breadcrumbs } from '@mate
 import { Link } from "react-router-dom";
 const Product = ({icon,votes=[],id,name,minMembership,website,description,versions,category}) => {
   const [error,setError] = useState(false);
+  const [imageReplacement,setErr] = useState(false);
   const [voted,setVoted] = useState(false);
   const { updateData,categories } = useData();
   const {user: {uid}} = useAuth()
@@ -17,27 +18,17 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
     if(uid){
       const i = votes.indexOf(uid)
       if(i >= 0)votes.splice(i, 1)
-      else votes.push(uid)
+      else votes.push(uid);
       updateData("products",id,{votes},()=>{},err=>setError(err));
     } else setError({message: <div>Please <Link to="/login" >Login</Link> Before Trying to vote</div>})
   }
   return (
-    <section className="section_product pb-5">
-      <div className="crumb text-center">
-      <Breadcrumbs separator={<NavigateNextIcon fontSize="large" />} aria-label="breadcrumb">
-        <Typography variant="h4" className="text-decoration-none text-white" component={Link} to="/">
-          Home
-        </Typography>
-        <Typography variant="h4" className="text-white">
-          {name}
-        </Typography>
-      </Breadcrumbs>
-      </div>
+    <section className="section_product py-5"> 
       <Container maxWidth="md" className="px-3">
         <div  className="row align-items-center rounded">
           <div className="col-lg-3 ">
-            <Paper className="bg-white rounded py-2">
-              <img src={icon} alt={name} className="w-100"/>
+            <Paper className="rounded py-2">
+              {imageReplacement ? <div className="height h3"> {imageReplacement} </div> : <img src={icon} onError={()=> setErr(name[0])} alt={name} className="w-100"/>}
             </Paper>
           </div>
           <div className="col-lg-9">
@@ -54,8 +45,8 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
               </div>
             </Paper>
             <div className="row my-3">
-              {versions?.map(el=> <div className="col-lg-4"><Paper className="py-3 text-center bg-white rounded"><Chip variant="outlined" color="primary" label={el} avatar={<Avatar>{el[0]}</Avatar>} /></Paper></div>)}
-              <div className="col-lg-4"><Paper className="py-3 text-center bg-white rounded"><Chip variant="outlined" color="primary" label={categories.find(el=> el.id === category)?.subcategory} avatar={<Avatar>{categories.find(el=> el.id === category)?.subcategory?.[0]}</Avatar>} /></Paper></div>
+              {versions?.map(el=> <div className="col-lg-4"><Paper className="py-3 text-center rounded"><Chip variant="outlined" color="primary" label={el} avatar={<Avatar>{el[0]}</Avatar>} /></Paper></div>)}
+              <div className="col-lg-4"><Paper className="py-3 text-center rounded"><Chip variant="outlined" color="primary" label={categories.find(el=> el.id === category)?.subcategory} avatar={<Avatar>{categories.find(el=> el.id === category)?.subcategory?.[0]}</Avatar>} /></Paper></div>
             </div>
           </div>
         </div>

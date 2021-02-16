@@ -80,8 +80,8 @@ class DataContextProvider extends Component {
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
-  delete = (collection,id,reject)=>{
-    db.collection(collection).doc(id).delete().catch(reject)
+  delete = (collection,id,resolve,reject)=>{
+    db.collection(collection).doc(id).delete().then(e=> resolve(e)).catch(reject)
   }
   UNSAFE_componentWillUpdate(prevProps, prevState){
     const { categoriesLoaded, productsLoaded, pageLoaded, allLoaded } = prevState;

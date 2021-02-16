@@ -39,7 +39,7 @@ const Users = ()=> {
   };
 
   return (
-    <div className="container pt-5 mt-5">
+    <div className="container py-5 mt-5">
       <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
       <TableHead>

@@ -1,0 +1,30 @@
+
+.form {
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 370px;
+}
+
+.submit {
+  border-radius: 12px;
+  border: 0;
+  text-transform: capitalize;
+  box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 15px;
+  height: 50px;
+  margin-top: 38px;
+  text-align: center;
+  width: 100%;
+}
+
+.submit:disabled{
+  background-color: #999;
+}
+
+.MuiButton-label{
+  font-family: inherit;
+  font-weight: bold;
+}

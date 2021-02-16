@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useData } from "../../context/DataContext";
 import Dropdown from "./Dropdown";
-import Paper from '@material-ui/core/Paper';
+import {Paper} from '@material-ui/core';
 
 const Searchbar = () => {
   const [by, setby] = useState({});
@@ -30,7 +30,7 @@ const Searchbar = () => {
   const orders = [{type: "asc",name: "&upharpoonleft;"},{type: "desc",name: "&downharpoonright;"}]
   return (
     <div className="py-3">
-      <div className="container bg-white ">
+      <div className="container">
       <Paper elevation={2} className="row">
         <div className="col-lg-10">
           <div className="input-group">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useData } from '../../context/DataContext';
 import CategoryCard from '../utils/CategoryCard';
+import { Button } from "@material-ui/core"
 
 const Categories = () => {
   const { categories,getFiltered,products } = useData();
@@ -18,14 +19,14 @@ const Categories = () => {
   };
   const showVersions = ()=>{
     const versions = [].concat.apply([], products.map(el=> el.versions)).filter((item, pos,a)=>  a.indexOf(item) === pos);
-    return versions.map(el=> <button onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold">{el}</button>)
+    return versions.map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>)
   }
   return (
     <div>
       <div className="container">
-      <button onClick={()=>getFiltered()} style={{verticalAlign: `top`}} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold">
+      <Button onClick={()=>getFiltered()} variant="outlined" color="primary" style={{verticalAlign: `top`}} className="m-2">
         All
-      </button>
+      </Button>
         {showCategories()}
         {showVersions()}
       </div>

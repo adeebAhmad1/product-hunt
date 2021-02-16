@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => {
       minWidth: `250px`,
       width: `280px`,
       height: `60px`
+    },
+    divider: {
+      backgroundColor: theme.palette.divider
     }
   })
 });
@@ -59,38 +62,38 @@ const SideDrawer = (props) => {
           <Avatar className="mr-3" variant="square" src={icon} alt="Tech Kit" />Tech Kit
         </Typography>
         <List component="nav">
-          <ListItem component={NavLink} onClick={props.onClose} to="/" exact activeClassName="bg-light" button className={classes.main}>
+          <ListItem component={NavLink} onClick={props.onClose} to="/" exact activeClassName={classes.divider} button className={"my_link " + classes.main}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem component="a" href="https://roioverload.com" button className={classes.main}>
+          <ListItem component="a" href="https://roioverload.com" button className={"my_link " + classes.main}>
             <ListItemIcon>
               <LanguageIcon />
             </ListItemIcon>
             <ListItemText primary="ROIOverload.com" />
           </ListItem>
-          <ListItem component="a" href="https://forms.gle/7arehbmitp5ZVgGG7" button className={classes.main}>
+          <ListItem component="a" href="https://forms.gle/7arehbmitp5ZVgGG7" button className={"my_link " + classes.main}>
           <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
             <ListItemText primary="Add A Product" />
           </ListItem>
-          {activeUser?.role === "admin" && <ListItem component={NavLink} onClick={props.onClose} to="/users" exact activeClassName="bg-light" button className={classes.main}>
+          {activeUser?.role === "admin" && <ListItem component={NavLink} onClick={props.onClose} to="/users" exact activeClassName={classes.divider} button className={"my_link " + classes.main}>
           <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>
             <ListItemText primary="Users" />
           </ListItem>}
-          {activeUser?.role === "admin" &&<ListItem component={NavLink} onClick={props.onClose} to="/dashboard" exact activeClassName="bg-light" button className={classes.main}>
+          {activeUser?.role === "admin" &&<ListItem component={NavLink} onClick={props.onClose} to="/dashboard" exact activeClassName={classes.divider} button className={"my_link " + classes.main}>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>}
           {isAuth ? <>
-            <ListItem button className={classes.main} onClick={()=>setOpen(!open)}>
+            <ListItem button className={"my_link " + classes.main} onClick={()=>setOpen(!open)}>
               <ListItemIcon>
                 {user?.photoURL ?<Avatar className={classes.small} src={activeUser?.dp} alt={activeUser.firstname} /> : <Avatar className={classes.small}> {activeUser?.firstname?.[0]} </Avatar>}
               </ListItemIcon>
@@ -99,13 +102,13 @@ const SideDrawer = (props) => {
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem button component={NavLink} onClick={props.onClose} to="/profile" activeClassName="bg-light" className={classes.nested}>
+                <ListItem button component={NavLink} onClick={props.onClose} to="/profile" activeClassName={classes.divider} className={classes.nested+ " my_link"}>
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
                   <ListItemText primary="Profile" />
                 </ListItem>
-                <ListItem onClick={()=>logout(props.onClose)} button className={classes.nested}>
+                <ListItem onClick={()=>logout(props.onClose)} button className={classes.nested+ " my_link"}>
                   <ListItemIcon>
                     <ExitToAppIcon />
                   </ListItemIcon>
@@ -113,7 +116,7 @@ const SideDrawer = (props) => {
                 </ListItem>
               </List>
             </Collapse>
-          </>  : <ListItem exact component={NavLink} onClick={props.onClose} to="/login" activeClassName="bg-light" button className={classes.main}>
+          </>  : <ListItem exact component={NavLink} onClick={props.onClose} to="/login" activeClassName={classes.divider} button className={"my_link " + classes.main}>
             <ListItemIcon>
                     <AccountCircleIcon />
                   </ListItemIcon>

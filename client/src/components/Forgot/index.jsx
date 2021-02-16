@@ -1,3 +1,5 @@
+import { Paper,TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -20,24 +22,24 @@ const Forgot = () => {
   }
   return (
     <div className="d-flex justify-content-center align-items-center py-5" >
-      <form onSubmit={onSubmit} action="/" className="form pt-3 pb-5">
-        <h1 className="title">Find your account</h1>
-        <Input required name="Email" ref={email} id="email" type="email" />
+      <Paper component="form" onSubmit={onSubmit} action="/" className="form pt-5 pb-5">
+        <h2>Find your account</h2>
+        <TextField required label="Email" className="w-100" name="email" inputRef={email} id="email" type="email" />
         <button className="btn submit btn-primary">Search</button>
         {
-          success ? <div className="alert mt-3 alert-success">
+          success ? <Alert severity="success">
             {success.message}
             <br/>
             Go Back to Login? <Link to="/login">Login Now</Link>
-          </div> : ""
+          </Alert> : ""
         }
         {
-          error ? <div className="alert mt-3 alert-danger">
+          error ? <Alert severity="error">
             {error.message}
-          </div> : ""
+          </Alert> : ""
         }
-        {success ? "" : <p className="text-white mt-3">Go Back to Login? <Link to="/login">Login Now</Link></p>}
-      </form>
+        {success ? "" : <p className="mt-3">Go Back to Login? <Link to="/login">Login Now</Link></p>}
+      </Paper>
     </div>
   );
 };

@@ -40,7 +40,7 @@ const AuthContextProvider = ({children}) => {
   const signup = (email,password,firstname,lastname,resolve,reject)=>{
     firebase.auth().createUserWithEmailAndPassword(email,password).then(a=>{
       if(a.additionalUserInfo.isNewUser){
-        db.collection("users").doc(a.uid).set({email: email,time: Date.now(),firstname,lastname,uid: a.user.uid,role: "user"}).then(()=>resolve(a))
+        db.collection("users").doc(a.uid).set({email: email,time: Date.now(),type: "manual",firstname,lastname,uid: a.user.uid,role: "user"}).then(()=>resolve(a))
       }
     }).catch(err=> reject(err));
   }
@@ -51,7 +51,7 @@ const AuthContextProvider = ({children}) => {
     firebase.auth().signInWithPopup(googleProvider).then(result=>{
       console.log(result)
       if(result.additionalUserInfo.isNewUser){
-        db.collection("users").doc(result.uid).set({email: result.user.email,dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+        db.collection("users").doc(result.uid).set({email: result.user.email,type: "google",dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
       }
     })
   }
@@ -59,7 +59,7 @@ const AuthContextProvider = ({children}) => {
     firebase.auth().signInWithPopup(facebookProvider).then(result=>{
       console.log(result)
       if(result.additionalUserInfo.isNewUser){
-        db.collection("users").doc(result.uid).set({email: result.user.email,dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+        db.collection("users").doc(result.uid).set({email: result.user.email,type: "facebook",dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
       }
     })
   }

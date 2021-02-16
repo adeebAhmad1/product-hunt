@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Paper, Button, Container } from "@material-ui/core"
+import { Paper, Button, Container,TextField } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
 
 const Form = () => {
@@ -47,9 +47,9 @@ const Form = () => {
       </div>
       <form onSubmit={onSubmit} className="d-lg-flex d-block d-sm-block pb-5">
       <div className="col-lg-8 my-1">
-        <input type="email" required={true} className="form-control h-auto py-2 px-3" placeholder="Your Email" ref={email} id="email" />
+        <TextField type="email" required={true} variant="outlined" className="w-100" color="primary" placeholder="Your Email" inputRef={email} id="email" />
       </div>
-      <div className="col-lg-4 my-1 text-center px-lg-0"><Button disabled={loading} type="submit" variant="contained" className="px-0 w-100" color="primary" > Subscribe Now </Button></div>
+      <div className="col-lg-4 my-1 text-center px-lg-0"><Button disabled={loading} type="submit" variant="contained" className="px-0 h-100 w-100" color="primary" > Subscribe Now </Button></div>
       </form>
       {
         success || error ? <div className="px-3 py-2">

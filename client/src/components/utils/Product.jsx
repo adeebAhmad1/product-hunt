@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
-import { Paper,Button } from '@material-ui/core';
+import { Paper,Button,makeStyles } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import {ChevronRight} from '@material-ui/icons';
+
+const useStyles = makeStyles(theme=>({
+  color: {
+    color: theme.palette.text.primary
+  }
+}))
+
 const Product = ({ website, id, name, icon,versions, category,votes=[] }) => {
   const [voted,setVoted] = useState(false);
   const { updateData,categories } = useData();
+  const classes = useStyles();
   const [error,setError] = useState(false);
   const {user: {uid}} = useAuth()
   useEffect(()=>{
@@ -35,7 +43,7 @@ const Product = ({ website, id, name, icon,versions, category,votes=[] }) => {
           <div className="">
           <div className="row">
             <div className="col-lg-7 col-12 font-weight-bold py-2">
-              <h4> <a className="text-decoration-none font-weight-bold text-dark" href={website}>{name}</a> </h4>
+              <h4> <a className={"text-decoration-none font-weight-bold my_link "+ classes.color} href={website}>{name}</a> </h4>
               <p className="mb-1">
                 <span className="span_tag">{categories.find(el=> el.id === category).subcategory}</span>
                 {versions.map(el=> <span key={el} className="span_tag"> {el} </span>)}

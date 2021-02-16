@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
+import { Button } from "@material-ui/core"
 
 const CategoryCard = ({category,categories}) => {
   const [show, setShow] = useState(false);
   const { getFiltered } = useData();
   return (
     <div style={{verticalAlign: `top`}} className="d-inline-block">
-      <button onClick={()=> setShow(i=> !i)} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold">
+      <Button variant={show ? "contained" : "outlined"} color="primary" onClick={()=> setShow(i=> !i)} className="my-2">
         {category}
-      </button>
+      </Button>
       {show ? <ul className="list-unstyled ml-3">
-        {categories.map((el,i)=> <li> <button key={i} onClick={()=> getFiltered(null,el.id)} className="btn btn-category my-2 btn-outline-primary text-capitalize font-weight-bold"> {el.subcategory} </button> </li> )}
+        {categories.map((el,i)=> <li> <Button key={i} color="primary" variant="outlined" onClick={()=> getFiltered(null,el.id)} className="my-2"> {el.subcategory} </Button> </li> )}
       </ul> : "" }
     </div>
   );
