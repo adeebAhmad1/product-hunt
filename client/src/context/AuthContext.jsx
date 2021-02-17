@@ -1,4 +1,4 @@
-import firebase,{ db,facebookProvider,googleProvider } from "../config/Firebase";
+import firebase,{ db,facebookProvider,googleProvider,twitterProvider } from "../config/Firebase";
 import React, { useState, useEffect, createContext,useContext } from 'react';
 const AuthContext = createContext();
 
@@ -60,6 +60,14 @@ const AuthContextProvider = ({children}) => {
       console.log(result)
       if(result.additionalUserInfo.isNewUser){
         db.collection("users").doc(result.uid).set({email: result.user.email,type: "facebook",dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+      }
+    })
+  }
+  const twitterLogin = ()=>{
+    firebase.auth().signInWithPopup(twitterProvider).then(result=>{
+      console.log(result)
+      if(result.additionalUserInfo.isNewUser){
+        db.collection("users").doc(result.uid).set({email: result.user.email,type: "twitter",dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
       }
     })
   }

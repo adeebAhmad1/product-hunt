@@ -19,10 +19,11 @@ firebase.initializeApp(firebaseConfig);
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
+const twitterProvider = new firebase.auth.TwitterAuthProvider();
 
 // DATABASE
 var db = firebase.firestore();
 var storage = firebase.storage();
 
-export { db, googleProvider,storage,facebookProvider };
+export { db, googleProvider,storage,facebookProvider,twitterProvider };
 export default firebase;
