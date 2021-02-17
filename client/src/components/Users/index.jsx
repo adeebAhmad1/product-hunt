@@ -48,6 +48,7 @@ const Users = ()=> {
             <TableCell className="font-weight-bold">Last Name</TableCell>
             <TableCell className="font-weight-bold" align="right">Email</TableCell>
             <TableCell className="font-weight-bold" align="right">Role</TableCell>
+            <TableCell className="font-weight-bold" align="right">Type</TableCell>
             <TableCell className="font-weight-bold" align="right">Time Created</TableCell>
           </TableRow>
         </TableHead>
@@ -68,6 +69,9 @@ const Users = ()=> {
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 {row.role}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+                {row.type}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 {moment(row.time).fromNow()}

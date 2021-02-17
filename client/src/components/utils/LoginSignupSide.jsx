@@ -6,7 +6,7 @@ const LoginSignupSide = ({ type, heading, link, text, linkText,x }) => {
     <>
       <div className="flapper"></div>
       <motion.div animate={{ x: 0 }} exit={{ x: window.innerWidth > 768 ? (window.innerWidth-432)* x : window.innerWidth *x }} initial={{ x: window.innerWidth > 768 ? (window.innerWidth-432)* x : window.innerWidth *x }}
-      transition={{ duration: 0.5 }} className={`login_side_container ${type}`}>
+      transition={{ duration: 0.3 }} className={`login_side_container ${type}`}>
         <div className="side_content_wrapper">
           <motion.div className="motion_content text-center" animate={{ x: 0 }} initial={{ x: -(window.innerWidth * x) }} exit={{ x: -(window.innerWidth * x) }} transition={{ duration: 0.5 }}>
             <div className="text_login_wrapper">

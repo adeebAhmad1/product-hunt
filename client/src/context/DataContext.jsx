@@ -76,6 +76,7 @@ class DataContextProvider extends Component {
     db.collection(type).add(add).then(resolve).catch(reject);
   }
   componentDidMount(){
+    console.log(db);
     this.getData("products","productsLoaded",true);
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));

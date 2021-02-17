@@ -7,6 +7,7 @@ import "./dashboard.css"
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
+import moment from 'moment';
 
 const useRowStyles = makeStyles(theme=>({
   root: {
@@ -82,6 +83,7 @@ const Dashboard = () => {
               <TableCell>Description</TableCell>
               <TableCell>website</TableCell>
               <TableCell>Votes</TableCell>
+              <TableCell>Time Created</TableCell>
               <TableCell>Handlers</TableCell>
             </TableRow>
           </TableHead>
@@ -102,7 +104,8 @@ const Dashboard = () => {
                 <TableCell style={{fontSize: `0.8rem`}}>{el.minMembership}</TableCell>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 300}}>{el.description}</TableCell>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.website}</TableCell>
-                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.votes.length}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{el.votes?.length || 0}</TableCell>
+                <TableCell style={{fontSize: `0.8rem` ,minWidth: 100}}>{moment(el.time).fromNow()}</TableCell>
                 <TableCell>
                   <ButtonGroup className="btn-group">
                     <Button variant="contained" color="secondary" onClick={()=> data.delete("products",el.id)}><DeleteIcon /></Button>

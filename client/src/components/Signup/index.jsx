@@ -2,13 +2,23 @@ import React,{useState,useRef} from "react";
 import { motion } from "framer-motion";
 import LoginSignupSide from "../utils/LoginSignupSide";
 import Input from "../utils/Input";
-import { Checkbox,FormControlLabel,Paper,makeStyles } from "@material-ui/core"
+import { Checkbox,FormControlLabel,Paper,makeStyles,Button } from "@material-ui/core"
 import { useAuth } from "../../context/AuthContext";
-import { Alert } from "@material-ui/lab"
+import { Alert } from "@material-ui/lab";
+import { Facebook } from "@material-ui/icons"
 const useStyles = makeStyles(theme=>({
   root: {
     ["--color"]: theme.palette.text.disabled,
     ["--color-1"]: theme.palette.text.primary
+  },
+  facebook: {
+    backgroundColor: `#4267B2`,
+    marginRight: `0.5rem`,
+    color: `#fff`
+  },
+  button: {
+    letterSpacing: 0,
+    textTransform: `none`
   }
 }));
 
@@ -54,25 +64,21 @@ const Signup = () => {
           initial={{ x: window.innerWidth > 768 ? -432 : -window.innerWidth, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: window.innerWidth > 768 ? -432 : -window.innerWidth, opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
           <Paper className="login_inner">
             <h1 className="font-weight-bold">Create Free Account</h1>
             <p>Sign up using social networks</p>
             <div className="form_icons">
-              <div onClick={facebookLogin} className="login_icon facebook">
-                <svg
-                  width="9"
-                  height="15"
-                  viewBox="0 0 9 15"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5.324 3.18306C5.209 3.34006 5.147 3.52606 5.147 3.74506L5.144 5.15106H8.23L7.201 8.10306H5.144V14.9931H2.057V8.10306L0.011 8.14206L0 5.15106L2.147 5.13806V3.77306C2.147 3.27106 2.23 2.79906 2.397 2.36006C2.563 1.92006 3.082 1.64006 3.4 1.31006C3.718 0.98006 4.09 0.719061 4.518 0.527061C4.945 0.334061 5.4 0.237061 5.886 0.237061H8.246L8.229 3.18306H5.324Z" />
-                </svg>
-              </div>
-              <div onClick={googleLogin} className="login_icon gmail">
-                <svg viewBox="0 -91 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m166 60c34.667969 0 66.027344 17.789062 84 42.300781l42.597656-42.902343c-25.476562-33.128907-74.511718-59.398438-126.597656-59.398438-91.199219 0-166 73.800781-166 165s74.800781 165 166 165c75.601562 0 139.199219-50.699219 158.699219-120 4.199219-14.402344 6.300781-29.402344 6.300781-45v-15h-150v59.988281h79.5c-16.5 35.402344-52.800781 60.011719-94.5 60.011719-57.898438 0-106-47.101562-106-105s48.101562-105 106-105zm0 0"/><path d="m466 90h-60v45h-45v60h45v45h60v-45h46v-60h-46zm0 0"/></svg>
-              </div>
+              <Button variant="contained" color="primary" className={`${classes.button} ${classes.facebook}`} startIcon={<Facebook/>} onClick={facebookLogin}>
+                Login With Facebook
+              </Button>
+              <Button variant="contained" startIcon={<svg width={20} viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg"><path d="M125.9 10.2c40.2-13.9 85.3-13.6 125.3 1.1 22.2 8.2 42.5 21 59.9 37.1-5.8 6.3-12.1 12.2-18.1 18.3l-34.2 34.2c-11.3-10.8-25.1-19-40.1-23.6-17.6-5.3-36.6-6.1-54.6-2.2-21 4.5-40.5 15.5-55.6 30.9-12.2 12.3-21.4 27.5-27 43.9-20.3-15.8-40.6-31.5-61-47.3 21.5-43 60.1-76.9 105.4-92.4z" id="Shape" fill="#EA4335"/><path d="M20.6 102.4c20.3 15.8 40.6 31.5 61 47.3-8 23.3-8 49.2 0 72.4-20.3 15.8-40.6 31.6-60.9 47.3C1.9 232.7-3.8 189.6 4.4 149.2c3.3-16.2 8.7-32 16.2-46.8z" id="Shape" fill="#FBBC05"/><path d="M361.7 151.1c5.8 32.7 4.5 66.8-4.7 98.8-8.5 29.3-24.6 56.5-47.1 77.2l-59.1-45.9c19.5-13.1 33.3-34.3 37.2-57.5H186.6c.1-24.2.1-48.4.1-72.6h175z" id="Shape" fill="#4285F4"/><path d="M81.4 222.2c7.8 22.9 22.8 43.2 42.6 57.1 12.4 8.7 26.6 14.9 41.4 17.9 14.6 3 29.7 2.6 44.4.1 14.6-2.6 28.7-7.9 41-16.2l59.1 45.9c-21.3 19.7-48 33.1-76.2 39.6-31.2 7.1-64.2 7.3-95.2-1-24.6-6.5-47.7-18.2-67.6-34.1-20.9-16.6-38.3-38-50.4-62 20.3-15.7 40.6-31.5 60.9-47.3z" fill="#34A853"/></svg>} onClick={googleLogin} >
+                Login With Google
+              </Button>
+            </div>
+            <div>
+              We'll never post on any of your account without your <b>permission</b>
             </div>
             <form onSubmit={onSubmit} className="req_form">
               <div className="w-100 mb-3 d-flex justify-content-center align-items-center">

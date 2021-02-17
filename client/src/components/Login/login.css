@@ -41,7 +41,7 @@
   top: 0;
   z-index: 20;
   overflow: hidden;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .login_page {
   left: 0;
