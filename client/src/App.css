@@ -79,6 +79,11 @@ nav {
   border-radius: 30px;
 }
 
+.form{
+  width: 100%;
+  max-width: 500px;
+}
+
 #btn {
   position: absolute;
   bottom: -35px;

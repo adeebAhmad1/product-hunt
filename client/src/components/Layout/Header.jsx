@@ -20,7 +20,7 @@ const Header = () => {
             <IconButton className="text-white" onClick={handleNavCollapse}>
               <MenuIcon/>
             </IconButton>
-            <Link to="/" className="text-light text-white text-decoration-none mb-0 font-weight-bold h1">
+            <Link to="/" className="text-white active text-decoration-none mb-0 font-weight-bold h1">
               Tech Kit
             </Link>
           </div>

@@ -2,9 +2,19 @@ import React, { useRef, useState, useEffect } from 'react';
 import Input from '../utils/Input';
 import { useHistory,useParams } from "react-router-dom";
 import { useData } from "../../context/DataContext";
+import { Paper,makeStyles,Select,MenuItem,InputBase  } from '@material-ui/core';
+import { Alert } from "@material-ui/lab"
+
+const useStyles = makeStyles(()=>({
+  select: {
+    borderBottom: `none`
+  }
+}))
+
 const Add = () => {
   const { goBack } = useHistory();
   const { id } = useParams();
+  const classes = useStyles();
   const [loading,setloading] = useState(false);
   const [error,seterror] = useState(false);
   const data = useData();
@@ -57,33 +67,29 @@ const Add = () => {
       seterror({message: "Please Enter a valid website URL"})
     }
   };
-  const map = (array)=> array.map((el,i)=> <option key={i} value={el.id}>{el.subcategory}</option>)
+  const map = (array)=> array.map((el,i)=> <MenuItem key={i} value={el.id}>{el.subcategory}</MenuItem>)
   return (
     <div className="d-flex justify-content-center align-items-center py-5">
-      <form onSubmit={onSubmit} className="form">
-        <Input ref={name} required={true} id="name" name="Name" type="text"/>
-        <Input ref={minMembership} required={true} id="minMembership" name="Minimum Paid Membership" type="number"/>
-        <Input ref={description} required={true} id="description" name="Description" type="text"/>
-        <Input ref={website} id="website" name="website" type="text"/>
-        <Input ref={version} id="version" name="version" type="text"/>
-        <Input ref={icon} id="icon" name="icon" type="text"/>
-        <div className="input-container ic">
-          <select name="category" value={category} required={true} onChange={e=>setCategory(e.target.selectedOptions[0].value)} className="input" id="select">
-            <option value="" disabled>Select Category</option>
+      <Paper component="form" onSubmit={onSubmit} className="form p-5">
+        <Input ref={name} required id="name" placeholder="Name" type="text"/>
+        <Input ref={minMembership} required id="minMembership" placeholder="Minimum Paid Membership" type="number"/>
+        <Input ref={description} required id="description" placeholder="Description" type="text"/>
+        <Input ref={website} id="website" placeholder="Website" type="text"/>
+        <Input ref={version} id="version" placeholder="Version" type="text"/>
+        <Input ref={icon} id="icon" placeholder="Icon" type="text"/>
+        <div className="field">
+          <Select component={InputBase} name="category" displayEmpty value={category} required onChange={e=>setCategory(e.target.value)} className={"field_input "+ classes.select} id="select">
+            <MenuItem value="" disabled>Select Category</MenuItem>
             {map(data.categories)}
-          </select>
-          <div className="cut"></div>
-          <label htmlFor="select" className="placeholder text-capitalize">
-            categories
-          </label>
+          </Select>
+          <button disabled={loading} type="text" className="button_login">submit</button>
         </div>
-        <button disabled={loading} type="text" className="submit">submit</button>
         {
-          error ? <div className="alert font_small alert-danger">
+          error ? <Alert severity="error">
             {error.message}
-          </div> : ""
+          </Alert> : ""
         }
-      </form>
+      </Paper>
     </div>
   );
 };

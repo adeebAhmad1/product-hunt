@@ -8,13 +8,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 
-const useRowStyles = makeStyles({
+const useRowStyles = makeStyles(theme=>({
   root: {
     '& > *': {
       borderBottom: 'unset',
     },
   },
-});
+  h1: {
+    color: theme.palette.text.primary
+  }
+}));
 
 const Dashboard = () => {
   const data = useData();
@@ -65,7 +68,7 @@ const Dashboard = () => {
       </section>
       <section className="pt-5">
       <div className="container pb-5">
-        <h1 className="font-weight-bold my-3 py-3">Products</h1>
+        <h1 className={"font-weight-bold my-3 py-3 "+ classes.h1}>Products</h1>
         <TableContainer className="my-4" component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>

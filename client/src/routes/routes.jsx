@@ -13,6 +13,7 @@ import Verification from '../components/Verification';
 import Profile from '../components/Profile';
 import Users from '../components/Users';
 import { AnimatePresence } from "framer-motion";
+import Error from '../components/Error/404';
 
 const PrivateRoutes = ({ condition, component: Comp, ...rest }) => {
   return (
@@ -52,11 +53,13 @@ const Routes = () => {
             <Switch location={location} key={location.pathname}>
               <Route exact path="/login" component={props=> isAuth ? <Redirect to="/" /> : <Login {...props} />} />
               <Route exact path="/signup" component={props=> isAuth ? <Redirect to="/" /> : <Signup {...props} />} />
+              <Route path="*" exact component={Error} />
             </Switch>
           </AnimatePresence>
         </div>
         }} />
       }
+      <Route path="*" exact component={Error} />
     </Switch>
     </>
   );

@@ -1,6 +1,30 @@
-import { Paper } from "@material-ui/core";
+import { Paper,TextField,Button,withStyles } from "@material-ui/core";
 import React, { useRef } from "react";
 import { useData } from "../../context/DataContext";
+
+const SearchField = withStyles(theme=>({
+  root: {
+    '& label.Mui-focused': {
+      color: theme.palette.success.main,
+    },
+    
+    '& .MuiOutlinedInput-root': {
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.success.main,
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.success.main,
+      },
+    },
+  },
+}))(TextField);
+
+const SearchButton = withStyles(theme=>({
+  root:{
+    borderColor: theme.palette.success.main,
+    color: theme.palette.success.main,
+  }
+}))(Button)
 
 const Searchbar = () => {
   const { setFiltered, products } = useData();
@@ -15,10 +39,10 @@ const Searchbar = () => {
         Search Your Products
       </h4>
       <form className="d-flex mx-auto" onSubmit={onSubmit} style={{maxWidth: `400px`}}>
-        <input ref={search} className="form-control mr-sm-2" type="search" placeholder="Search" />
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <SearchField variant="outlined" inputRef={search} className="mr-sm-2" type="search" label="Search" />
+        <SearchButton variant="outlined" className="my-2 my-sm-0" type="submit">
           Search
-        </button>
+        </SearchButton>
       </form>
     </Paper>
   );

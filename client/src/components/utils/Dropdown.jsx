@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Typography,makeStyles } from "@material-ui/core"
+import { Typography,makeStyles,Paper } from "@material-ui/core"
 
 const useStyles = makeStyles(theme=> ({
   root: {
-    ["--color"]: theme.palette.background.default
+    ["--color"]: theme.palette.background.paper
   },
   svg: {
     fill: theme.palette.text.primary
@@ -37,11 +37,11 @@ const Dropdown = ({class2,heading,options,subheading,set}) => {
 		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/></g></svg>
             </div>
           </div>
-          <div className={"drop-down__menu-box " + classes.root}>
+          <Paper className={"drop-down__menu-box " + classes.root}>
             <ul className="drop-down__menu">
               {showOptions()}
             </ul>
-          </div>
+          </Paper>
       </div>
   );
 };

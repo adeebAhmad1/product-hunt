@@ -53,7 +53,9 @@ const App = () => {
             <DataContextProvider>
               <div style={{backgroundColor: theme.palette.background.default}}>
                 <Header />
-                <Routes />
+                <div className="pb-5">
+                  <Routes />
+                </div>
                 <Footer />
               </div>
             </DataContextProvider>

@@ -1,6 +1,6 @@
 import React, { useState,forwardRef } from "react";
 
-const Input = ({ password, type,placeholder,...rest },ref) => {
+const Input = ({ password=false, type,placeholder,...rest },ref) => {
   const [passType, setPassType] = useState(type)
   const setType = ()=>{
     if(password){
