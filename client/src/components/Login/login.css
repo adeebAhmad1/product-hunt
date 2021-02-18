@@ -17,7 +17,6 @@
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  min-height: 100vh;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -383,7 +382,7 @@
 
 @media (max-width: 768px){
   .login_outer{
-    width: 100%;
+    position: relative !important;
   }
   .login_container{
     position: relative;
@@ -400,6 +399,9 @@
   }
   .login .login_inner{
     padding: 15rem 1rem 4rem;
+  }
+  .login_content{
+    padding: 2rem 0;
   }
   .regestration .motion_content{
     padding: 10rem 0 4rem;
