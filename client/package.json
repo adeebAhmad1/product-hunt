@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "git": "git add . && git commit -m",
-    "postgit": "git push && git push heroku master"
+    "postgit": "git push"
   },
   "eslintConfig": {
     "extends": [
