@@ -5,7 +5,7 @@ import Input from "../utils/Input";
 import { Checkbox,FormControlLabel,Paper,makeStyles,Button } from "@material-ui/core"
 import { useAuth } from "../../context/AuthContext";
 import { Alert } from "@material-ui/lab";
-import { Facebook } from "@material-ui/icons"
+import { Facebook,Twitter } from "@material-ui/icons"
 const useStyles = makeStyles(theme=>({
   root: {
     ["--color"]: theme.palette.text.disabled,
