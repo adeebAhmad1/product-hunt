@@ -58,7 +58,7 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
         <div className="row">
           <div className="col-lg-8">
           <Paper className="p-3">
-            Minimum Paid Membership is ${minMembership} per month
+            Minimum Paid Membership is  ${minMembership} per month
           </Paper>
           </div>
           <div className="col-lg-4">
