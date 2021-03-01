@@ -72,7 +72,7 @@ const Add = () => {
     <div className="d-flex justify-content-center align-items-center py-5">
       <Paper component="form" onSubmit={onSubmit} className="form p-5">
         <Input ref={name} required id="name" placeholder="Name" type="text"/>
-        <Input ref={minMembership} required id="minMembership" placeholder="Minimum Paid Membership" type="number"/>
+        <Input ref={minMembership} required step=".01" id="minMembership" placeholder="Minimum Paid Membership" type="number"/>
         <Input ref={description} required id="description" placeholder="Description" type="text"/>
         <Input ref={website} id="website" placeholder="Website" type="text"/>
         <Input ref={version} id="version" placeholder="Version" type="text"/>

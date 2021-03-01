@@ -30,7 +30,7 @@ const PublicRoutes = ({ user, component: Comp, ...rest }) => {
 const Routes = () => {
   const { isAuth,activeUser,user } = useAuth();
   return (
-    activeUser.role && (!user.emailVerified && activeUser.type !== "facebook") ? 
+    activeUser.role && (!user.emailVerified && (activeUser.type !== "facebook" && activeUser.type !== "twitter")) ? 
     <Switch>
       <Route path="*" component={Verification} exact />
     </Switch> :

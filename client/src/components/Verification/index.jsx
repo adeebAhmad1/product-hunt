@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CheckIcon from "@material-ui/icons/Check";
-import { Button } from "@material-ui/core";
+import { Button,Paper } from "@material-ui/core";
 import { useAuth } from "../../context/AuthContext";
 const Verification = () => {
   const { verify } = useAuth();
@@ -28,7 +28,7 @@ const Verification = () => {
     <div className="verification py-5 my-5">
       <section className="content border px-3 rounded">
         <div className="row">
-          <div className="col-12">
+          <Paper className="col-12">
             <h1 className="text-lg">Welcome</h1>
             <div className="text-md text-color">Tech Kit</div>
             <div>
@@ -55,7 +55,7 @@ const Verification = () => {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione
               delectus id molestiae consectetur quod rerum sint Iste unde.
             </p>
-          </div>
+          </Paper>
         </div>
       </section>
     </div>

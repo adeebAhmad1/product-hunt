@@ -67,7 +67,8 @@ const AuthContextProvider = ({children}) => {
     firebase.auth().signInWithPopup(twitterProvider).then(result=>{
       console.log(result)
       if(result.additionalUserInfo.isNewUser){
-        db.collection("users").doc(result.uid).set({email: result.user.email,type: "twitter",dp: result.user.photoURL,time: Date.now(),firstname: result.additionalUserInfo.profile.given_name,lastname: result.additionalUserInfo.profile.family_name,uid: result.user.uid,role: "user"})
+	const [firstname, ...lastname] = result.additionalUserInfo.profile.name.split(" ")
+        db.collection("users").doc(result.uid).set({email: result.user.email,type: "twitter",dp: result.user.photoURL,time: Date.now(),firstname,lastname: lastname.join(' '),uid: result.user.uid,role: "user"})
       }
     })
   }
@@ -77,7 +78,7 @@ const AuthContextProvider = ({children}) => {
   const verify = (res,rej)=>{
     firebase.auth().currentUser.sendEmailVerification().then((e)=>res(e)).catch((e)=> rej(e))
   }
-  const value = {user,reset,facebookLogin,verify,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin};
+  const value = {user,reset,facebookLogin,verify,isAuth,setIsAuth,login,signup,currentUser,activeUser,logout,googleLogin,twitterLogin};
   return (
     <AuthContext.Provider value={value}>
       {children}

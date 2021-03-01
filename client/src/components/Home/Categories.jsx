@@ -17,10 +17,7 @@ const Categories = () => {
     })
     return myCategories.map((el,i)=> <CategoryCard key={i} {...el} />)
   };
-  const showVersions = ()=>{
-    const versions = [].concat.apply([], products.map(el=> el.versions)).filter((item, pos,a)=>  a.indexOf(item) === pos);
-    return versions.map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>)
-  }
+  const showVersions = ()=> [...new Set(products.map(el=> el.versions).flat(1))].map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>);
   return (
     <div>
       <div className="container">

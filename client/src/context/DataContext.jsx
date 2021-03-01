@@ -41,40 +41,15 @@ class DataContextProvider extends Component {
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
-  getFiltered = (versions=null,category=null,name=null)=>{
-    this.setState({filteredproductsLoaded: false});
-    const onSnapshot = snapShot=>{
-      const filteredproducts = [];
-      snapShot.forEach(doc=>{
-        const data = doc.data();
-        data.id = doc.id;
-        filteredproducts.push(data);
-      });
-      this.setState({filteredproducts,filteredproductsLoaded: true});
-    }
-    if(name) return db.collection("products").where("name", "==", name).onSnapshot(onSnapshot);
-    if(versions) return db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
-    if(category) return db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);
-    else return db.collection("products").onSnapshot(onSnapshot);
+  getFiltered = (versions=null,category=null)=>{
+    if(versions) return this.setFiltered(this.state.products.filter(el=> el.versions.includes(versions)),true)
+    if(category) return this.setFiltered(this.state.products.filter(el=> el.category === category),true)
+    else return this.setFiltered(this.state.products,true)
   }
-  getUserProducts =(id,set)=>{
-    db.collection("products").where("votes","array-contains",id).onSnapshot(snapShot=>{
-      const filteredproducts = [];
-      snapShot.forEach(doc=>{
-        const data = doc.data();
-        data.id = doc.id;
-        filteredproducts.push(data);
-      });
-      set(filteredproducts)
-    })
-  }
+  getUserProducts =(id)=>this.setFiltered(this.state.products.filter(el=> el.votes.includes(id)))
   setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
-  updateData = (type,id,update,resolve,reject)=>{
-    db.collection(type).doc(id).update(update).then(resolve).catch(reject);
-  }
-  addData = (type,add,resolve,reject)=>{
-    db.collection(type).add(add).then(resolve).catch(reject);
-  }
+  updateData = (type,id,update,resolve,reject)=>db.collection(type).doc(id).update(update).then(resolve).catch(reject);
+  addData = (type,add,resolve,reject)=>db.collection(type).add(add).then(resolve).catch(reject);
   componentDidMount(){
     console.log(db);
     this.getData("products","productsLoaded",true);
@@ -85,8 +60,8 @@ class DataContextProvider extends Component {
     db.collection(collection).doc(id).delete().then(e=> resolve(e)).catch(reject)
   }
   UNSAFE_componentWillUpdate(prevProps, prevState){
-    const { categoriesLoaded, productsLoaded, pageLoaded, allLoaded } = prevState;
-    if( categoriesLoaded && productsLoaded && pageLoaded && !allLoaded){
+    const { categoriesLoaded, pageLoaded, allLoaded } = prevState;
+    if( categoriesLoaded && pageLoaded && !allLoaded){
       setTimeout(() => this.setState({allLoaded: true}), 100);
     }
   }
