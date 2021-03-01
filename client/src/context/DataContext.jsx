@@ -19,15 +19,19 @@ class DataContextProvider extends Component {
     pageLoaded: false,
     allLoaded: false
   };
-  addDp = (email,file,id,resolve,reject)=>{
-    storage.ref().child(`/users/${email}`).put(file).then(()=>{
-    storage.ref().child(`/users/${email}`).getDownloadURL().then(dp=>{
+  addDp = async (email,file,id,resolve,reject)=>{
+    try {
+      await storage.ref().child(`/users/${email}`).put(file)
+      const dp = await storage.ref().child(`/users/${email}`).getDownloadURL()
       firebase.auth().currentUser.updateProfile({photoURL: dp});
-      db.collection("users").doc(id).update({dp}).then(resolve);
-    })
-    }).catch(reject)
+      await db.collection("users").doc(id).update({dp});
+      resolve();
+    }
+    catch(err){
+      reject(err);
+    }
   }
-  getData = (type,typeLoaded,isProducts)=>{
+  getData = (type,typeLoaded)=>{
     this.setState({[typeLoaded]: false});
     const onSnapshot = snapShot=>{
       const array = [];
@@ -37,7 +41,6 @@ class DataContextProvider extends Component {
         array.push(data);
       });
       this.setState({[type]: array,[typeLoaded]: true});
-      if(isProducts) this.setFiltered(array,true)
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
@@ -51,8 +54,7 @@ class DataContextProvider extends Component {
   updateData = (type,id,update,resolve,reject)=>db.collection(type).doc(id).update(update).then(resolve).catch(reject);
   addData = (type,add,resolve,reject)=>db.collection(type).add(add).then(resolve).catch(reject);
   componentDidMount(){
-    console.log(db);
-    this.getData("products","productsLoaded",true);
+    this.getData("products","productsLoaded");
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
