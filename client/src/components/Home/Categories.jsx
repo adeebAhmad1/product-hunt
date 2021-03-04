@@ -17,13 +17,10 @@ const Categories = () => {
     })
     return myCategories.map((el,i)=> <CategoryCard key={i} {...el} />)
   };
-  const showVersions = ()=> [...new Set(products.map(el=> el.versions).flat(1))].map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>);
+  const showVersions = ()=> ["Free","Paid","Freemium"].map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>);
   return (
     <div>
       <div className="container">
-      <Button onClick={()=>getFiltered()} variant="outlined" color="primary" style={{verticalAlign: `top`}} className="m-2">
-        All
-      </Button>
         {showCategories()}
         {showVersions()}
       </div>

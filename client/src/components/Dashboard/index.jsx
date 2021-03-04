@@ -1,5 +1,5 @@
-import React from "react";
-import firebase from "../../config/Firebase";
+import React,{useEffect,useState} from "react";
+import firebase, { db } from "../../config/Firebase";
 import { useData } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 import { Button, ButtonGroup,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper } from "@material-ui/core";
@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import moment from 'moment';
+import { StarOutlineOutlined } from "@material-ui/icons";
 
 const useRowStyles = makeStyles(theme=>({
   root: {
@@ -23,7 +24,23 @@ const useRowStyles = makeStyles(theme=>({
 const Dashboard = () => {
   const data = useData();
   const classes = useRowStyles();
-
+  const [products,setProducts] = useState([]);
+  const [start,setstart] = useState(0);
+  const [first,setfirst] = useState(true);
+  useEffect(()=>{
+    setfirst(false)
+    db.collection("products").orderBy("name").startAt(start).endAt(start+10).onSnapshot(snapShot=>{
+      console.log(snapShot)
+      const array = [];
+      snapShot.forEach(doc=>{
+        console.log(doc.data())
+        const data = doc.data();
+        data.id = doc.id;
+        array.push(data);
+      });
+      setProducts(array)
+    })
+  },[start])
   return (
     <div style={{fontSize: `0.8rem`}}>
       <section className="pt-5">
@@ -50,7 +67,7 @@ const Dashboard = () => {
                 <TableCell align="right">{row.id}</TableCell>
                 <TableCell align="right">
                     {
-                      !data.products.find(el=> el.category === row.id) && <Button
+                      !products.find(el=> el.category === row.id) && <Button
                       variant="contained"
                       color="secondary"
                       style={{fontSize: `0.6rem`}}
@@ -88,7 +105,7 @@ const Dashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody style={{fontSize: `0.6rem`}}>
-            {data.products.map((el,i) => (
+            {products.map((el,i) => (
               <TableRow key={i} className={classes.root}>
                 <TableCell style={{fontSize: `0.8rem` ,minWidth: 70}} component="th" scope="row">
                   {i+1}
@@ -116,6 +133,8 @@ const Dashboard = () => {
             ))}
           </TableBody>
         </Table>
+        {!first && <Button onClick={()=>setstart(s=> s<0 ? s-10 : s)}>Previous 10 Products</Button>}
+        {!first && products.length < 10 && <Button onClick={()=>setstart(s=> products.length < 10 ? s+10 : s)}>Next 10 Products</Button>}
       </TableContainer>
         <Button component={Link} to={"/panel/add/products"} className="text-white mont font-weight-light" variant="contained" color="primary">Add Businesses</Button>
         <Button className="mx-5 d-inline-block mont font-weight-light" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>

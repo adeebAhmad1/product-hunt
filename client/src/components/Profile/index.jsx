@@ -143,7 +143,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="row my-4">
-        {likedProducts.map((el,i)=> <div className="col-lg-4"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
+        {likedProducts.map((el,i)=> <div className="col-lg-4 my-3"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
       </div>
     </Paper>
     </div>

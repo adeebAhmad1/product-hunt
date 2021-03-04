@@ -6,8 +6,8 @@ import {Paper} from '@material-ui/core';
 const Searchbar = () => {
   const [by, setby] = useState({});
   const [open, setopen] = useState(0);
-  const { setFiltered,products:old } = useData();
-  const products = JSON.parse(JSON.stringify(old));
+  const { setFiltered,filteredproducts } = useData();
+  const products = JSON.parse(JSON.stringify(filteredproducts));
   const onClick = e=> {
     if(by.type === "name"){
       switch(open){
@@ -19,9 +19,9 @@ const Searchbar = () => {
       }
     } else if(by.type === "votes"){
       switch(open){
-        case(1): setFiltered(products.sort((a,b)=> a.votes.length-b.votes.length),true);
+        case(1): setFiltered(products.sort((a,b)=> (a.votes?.length|| 0)-(b.votes?.length|| 0)),true);
         break;
-        case(0): setFiltered(products.sort((a,b)=> b.votes.length-a.votes.length),true);
+        case(0): setFiltered(products.sort((a,b)=> (b.votes?.length|| 0)-(a.votes?.length|| 0)),true);
         break;
         default: setFiltered([],true);
       }

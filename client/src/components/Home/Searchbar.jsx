@@ -1,5 +1,6 @@
 import { Paper,TextField,Button,withStyles } from "@material-ui/core";
 import React, { useRef } from "react";
+import { db } from "../../config/Firebase";
 import { useData } from "../../context/DataContext";
 
 const SearchField = withStyles(theme=>({
@@ -31,7 +32,17 @@ const Searchbar = () => {
   const search = useRef()
   const onSubmit =  e=>{
     e.preventDefault();
-    setFiltered(products.filter(el => el.name.toLowerCase().includes(search.current.value.toLowerCase())),true)
+    setFiltered([],false)
+    db.collection("products").orderBy("name").startAt(search.current.value)
+    .endAt(search.current.value+"\uf8ff").onSnapshot(snapShot=>{
+      const array = [];
+      snapShot.forEach(doc=>{
+        const data = doc.data();
+        data.id = doc.id;
+        array.push(data);
+      });
+      setFiltered(array,true)
+    })
   }
   return (
     <Paper className="p-4 rounded container my-4">
@@ -39,7 +50,7 @@ const Searchbar = () => {
         Search Your Products
       </h4>
       <form className="d-flex mx-auto" onSubmit={onSubmit} style={{maxWidth: `400px`}}>
-        <SearchField variant="outlined" inputRef={search} className="mr-sm-2" type="search" label="Search" />
+        <SearchField required variant="outlined" inputRef={search} className="mr-sm-2" type="search" label="Search" />
         <SearchButton variant="outlined" className="my-2 my-sm-0" type="submit">
           Search
         </SearchButton>

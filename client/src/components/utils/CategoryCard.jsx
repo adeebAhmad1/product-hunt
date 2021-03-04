@@ -7,7 +7,7 @@ const CategoryCard = ({category,categories}) => {
   const { getFiltered } = useData();
   return (
     <div style={{verticalAlign: `top`}} className="d-inline-block">
-      <Button variant={show ? "contained" : "outlined"} color="primary" onClick={()=> setShow(i=> !i)} className="my-2">
+      <Button variant={show ? "contained" : "outlined"} color="primary" onClick={()=> setShow(i=> !i)} className="m-2">
         {category}
       </Button>
       {show ? <ul className="list-unstyled ml-3">

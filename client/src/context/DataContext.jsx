@@ -17,7 +17,8 @@ class DataContextProvider extends Component {
     filteredproducts: [],
     filteredproductsLoaded: false,
     pageLoaded: false,
-    allLoaded: false
+    allLoaded: false,
+    firstTime: true
   };
   addDp = async (email,file,id,resolve,reject)=>{
     try {
@@ -45,16 +46,35 @@ class DataContextProvider extends Component {
     db.collection(type).onSnapshot(onSnapshot);
   }
   getFiltered = (versions=null,category=null)=>{
-    if(versions) return this.setFiltered(this.state.products.filter(el=> el.versions.includes(versions)),true)
-    if(category) return this.setFiltered(this.state.products.filter(el=> el.category === category),true)
-    else return this.setFiltered(this.state.products,true)
+    this.setState({filteredproductsLoaded: false,firstTime: false});
+    const onSnapshot = snapShot=>{
+      const filteredproducts = [];
+      snapShot.forEach(doc=>{
+        const data = doc.data();
+        data.id = doc.id;
+        filteredproducts.push(data);
+      });
+      this.setState({filteredproducts,filteredproductsLoaded: true});
+    }
+    if(versions) db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
+    else if(category) db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);
+    else db.collection("products").onSnapshot(onSnapshot);
   }
-  getUserProducts =(id)=>this.setFiltered(this.state.products.filter(el=> el.votes.includes(id)))
+  getUserProducts =(id,set)=>{
+    db.collection("products").where("votes","array-contains",id).onSnapshot(snapShot=>{
+      const filteredproducts = [];
+      snapShot.forEach(doc=>{
+        const data = doc.data();
+        data.id = doc.id;
+        filteredproducts.push(data);
+      });
+      set(filteredproducts)
+    })
+  }
   setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
   updateData = (type,id,update,resolve,reject)=>db.collection(type).doc(id).update(update).then(resolve).catch(reject);
   addData = (type,add,resolve,reject)=>db.collection(type).add(add).then(resolve).catch(reject);
   componentDidMount(){
-    this.getData("products","productsLoaded");
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
   }
@@ -81,7 +101,7 @@ class DataContextProvider extends Component {
     })
   }
   getReplies = (commentId,setReplies)=>{
-    db.collection("comments").doc(commentId).collection("replies").onSnapshot(snapShot=>{
+    db.collection("comments").doc(commentId).collection("replies").orderBy("time","asc").onSnapshot(snapShot=>{
       console.log(snapShot)
       const replies = [];
       snapShot.forEach(doc=>{
@@ -89,7 +109,6 @@ class DataContextProvider extends Component {
         reply.id = doc.id
         replies.push(reply)
       })
-      replies.sort((a,b)=> a.time - b.time);
       setReplies(replies)
     })
   }

@@ -1,14 +1,21 @@
-import React from 'react';
-import { useData } from '../../context/DataContext';
-import Product from '../utils/Product';
-import { Paper } from "@material-ui/core"
+import React from "react";
+import { useData } from "../../context/DataContext";
+import Product from "../utils/Product";
+import { Paper } from "@material-ui/core";
 
 const Products = () => {
-  const { filteredproducts,filteredproductsLoaded } = useData();
-  const show = ()=> filteredproducts.length > 0 ? filteredproducts.map((el,i)=> <Product key={i} {...el} /> ): <Paper className="container p-4">No products of The Related Category.</Paper>
+  const { filteredproducts, filteredproductsLoaded, firstTime } = useData();
   return (
     <div>
-      {filteredproductsLoaded && show()}
+      {filteredproductsLoaded ? (
+        filteredproducts.map((el, i) => <Product key={i} {...el} />)
+      ) : (
+        <Paper className="container p-4">
+          {firstTime && !filteredproductsLoaded
+            ? "Please Select a Category/Version or Search a product's name."
+            : "No products of The Related Category."}
+        </Paper>
+      )}
     </div>
   );
 };
