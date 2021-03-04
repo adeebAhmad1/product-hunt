@@ -1,7 +1,7 @@
 import React, { Component, createContext, useContext } from "react";
 import firebase, { db,storage } from "../config/Firebase";
+import abc from "../hellow.json"
 const DataContext = createContext();
-
 export const useData = ()=> useContext(DataContext);
 
 class DataContextProvider extends Component {
@@ -74,9 +74,10 @@ class DataContextProvider extends Component {
   setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
   updateData = (type,id,update,resolve,reject)=>db.collection(type).doc(id).update(update).then(resolve).catch(reject);
   addData = (type,add,resolve,reject)=>db.collection(type).add(add).then(resolve).catch(reject);
-  componentDidMount(){
+  componentDidMount= async () =>{
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
+  // console.log(addingProducts)
   }
   delete = (collection,id,resolve,reject)=>{
     db.collection(collection).doc(id).delete().then(e=> resolve(e)).catch(reject)

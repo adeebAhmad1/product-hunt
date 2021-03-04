@@ -2,13 +2,13 @@ import React,{useEffect,useState} from "react";
 import firebase, { db } from "../../config/Firebase";
 import { useData } from "../../context/DataContext";
 import { Link } from "react-router-dom";
-import { Button, ButtonGroup,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper } from "@material-ui/core";
+import { Button, ButtonGroup,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper, TableFooter, TablePagination } from "@material-ui/core";
 import "./dashboard.css"
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import moment from 'moment';
-import { StarOutlineOutlined } from "@material-ui/icons";
+import TablePaginationActions from "../utils/TablePagination";
 
 const useRowStyles = makeStyles(theme=>({
   root: {
@@ -25,22 +25,40 @@ const Dashboard = () => {
   const data = useData();
   const classes = useRowStyles();
   const [products,setProducts] = useState([]);
-  const [start,setstart] = useState(0);
-  const [first,setfirst] = useState(true);
+  const [start,setstart] = useState(null);
+  const [last,setlast] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(()=>{
-    setfirst(false)
-    db.collection("products").orderBy("name").startAt(start).endAt(start+10).onSnapshot(snapShot=>{
-      console.log(snapShot)
-      const array = [];
-      snapShot.forEach(doc=>{
-        console.log(doc.data())
-        const data = doc.data();
-        data.id = doc.id;
-        array.push(data);
-      });
-      setProducts(array)
-    })
-  },[start])
+    fetch()
+  },[]);
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.categories.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  const fetch = (i=false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
+    if(snapShot.empty){
+      return setlast(true)
+    }
+    const array = [];
+    setstart(snapShot.docs[snapShot.docs.length-1])
+    snapShot.forEach(doc=>{
+      const data = doc.data();
+      console.log(data.name)
+      data.id = doc.id;
+      array.push(data);
+    });
+    setProducts(array)
+  })
   return (
     <div style={{fontSize: `0.8rem`}}>
       <section className="pt-5">
@@ -57,7 +75,10 @@ const Dashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.categories.map((row,i) => (
+            {(rowsPerPage > 0
+                ? data.categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : data.categories
+              ).map((row,i) => (
               <TableRow key={i} className={classes.root}>
                 <TableCell component="th" scope="row">
                   {i+1}
@@ -78,7 +99,30 @@ const Dashboard = () => {
                 </TableCell>
               </TableRow>
             ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
+          <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={3}
+              count={data.categories.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
         </Table>
       </TableContainer>
         <Button to="/panel/add/category" variant="contained" color="primary" className="text-white mont font-weight-light my-3" component={Link}>Add Category</Button>
@@ -133,8 +177,7 @@ const Dashboard = () => {
             ))}
           </TableBody>
         </Table>
-        {!first && <Button onClick={()=>setstart(s=> s<0 ? s-10 : s)}>Previous 10 Products</Button>}
-        {!first && products.length < 10 && <Button onClick={()=>setstart(s=> products.length < 10 ? s+10 : s)}>Next 10 Products</Button>}
+        {!last && <Button onClick={()=>fetch(true)}>Next 10 Products</Button>}
       </TableContainer>
         <Button component={Link} to={"/panel/add/products"} className="text-white mont font-weight-light" variant="contained" color="primary">Add Businesses</Button>
         <Button className="mx-5 d-inline-block mont font-weight-light" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>
