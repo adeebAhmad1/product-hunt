@@ -26,11 +26,13 @@ const Dashboard = () => {
   const classes = useRowStyles();
   const [products,setProducts] = useState([]);
   const [start,setstart] = useState(null);
+  const [prev,setprev] = useState(null);
+  const [first,setFirst] = useState(false);
   const [last,setlast] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(()=>{
-    fetch()
+    fetchNext()
   },[]);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.categories.length - page * rowsPerPage);
@@ -45,11 +47,29 @@ const Dashboard = () => {
   };
 
 
-  const fetch = (i=false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
+  const fetchNext = (i= false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
     if(snapShot.empty){
       return setlast(true)
     }
+    if(i) setFirst(true)
     const array = [];
+    setprev(snapShot.docs[0])
+    setstart(snapShot.docs[snapShot.docs.length-1])
+    snapShot.forEach(doc=>{
+      const data = doc.data();
+      console.log(data.name)
+      data.id = doc.id;
+      array.push(data);
+    });
+    setProducts(array)
+  })
+  const fetchPrev = (i= false)=> db.collection("products").orderBy("name").endBefore(prev).limitToLast(10).get().then(snapShot=>{
+    if(snapShot.empty){
+      return setFirst(false)
+    }
+    if(i) setlast(false)
+    const array = [];
+    setprev(snapShot.docs[0])
     setstart(snapShot.docs[snapShot.docs.length-1])
     snapShot.forEach(doc=>{
       const data = doc.data();
@@ -177,7 +197,8 @@ const Dashboard = () => {
             ))}
           </TableBody>
         </Table>
-        {!last && <Button onClick={()=>fetch(true)}>Next 10 Products</Button>}
+        {first && <Button onClick={()=>fetchPrev()}>Previous 10 Products</Button>}
+        {!last && <Button onClick={()=>fetchNext(true)}>Next 10 Products</Button>}
       </TableContainer>
         <Button component={Link} to={"/panel/add/products"} className="text-white mont font-weight-light" variant="contained" color="primary">Add Businesses</Button>
         <Button className="mx-5 d-inline-block mont font-weight-light" variant="contained" color="secondary" onClick={()=> firebase.auth().signOut()}> Logout </Button>
