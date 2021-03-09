@@ -38,6 +38,9 @@ const App = () => {
             dark: pink[darkMode ? 500 : 800],
             light: pink[darkMode ? 200 : 600]
           }
+        },
+        typography: {
+          fontFamily: `"Montserrat", sans-serif`
         }
       }),
     [darkMode],

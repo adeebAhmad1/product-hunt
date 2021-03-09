@@ -50,8 +50,8 @@ const Searchbar = () => {
         Search Your Products
       </h4>
       <form className="d-flex mx-auto" onSubmit={onSubmit} style={{maxWidth: `400px`}}>
-        <SearchField required variant="outlined" inputRef={search} className="mr-2 mr-md-0" type="search" label="Search" />
-        <SearchButton variant="outlined" className="my-lg-2" type="submit">
+        <SearchField required variant="outlined" inputRef={search} className="mr-2" type="search" label="Search" />
+        <SearchButton variant="outlined" type="submit">
           Search
         </SearchButton>
       </form>

@@ -45,7 +45,7 @@ class DataContextProvider extends Component {
     }
     db.collection(type).onSnapshot(onSnapshot);
   }
-  getFiltered = (versions=null,category=null)=>{
+  getFiltered = (versions=null,category=null,res= ()=>{})=>{
     this.setState({filteredproductsLoaded: false,firstTime: false});
     const onSnapshot = snapShot=>{
       const filteredproducts = [];
@@ -55,6 +55,7 @@ class DataContextProvider extends Component {
         filteredproducts.push(data);
       });
       this.setState({filteredproducts,filteredproductsLoaded: true});
+      res()
     }
     if(versions) db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
     else if(category) db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);

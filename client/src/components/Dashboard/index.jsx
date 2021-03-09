@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateIcon from '@material-ui/icons/Create';
 import moment from 'moment';
 import TablePaginationActions from "../utils/TablePagination";
+import Popup from "./Popup";
 
 const useRowStyles = makeStyles(theme=>({
   root: {
@@ -30,23 +31,8 @@ const Dashboard = () => {
   const [first,setFirst] = useState(false);
   const [last,setlast] = useState(false);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  useEffect(()=>{
-    fetchNext()
-  },[]);
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.categories.length - page * rowsPerPage);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-
   const fetchNext = (i= false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
     if(snapShot.empty){
       return setlast(true)
@@ -63,6 +49,24 @@ const Dashboard = () => {
     });
     setProducts(array)
   })
+  useEffect(()=>{
+    fetchNext();
+    console.log(db)
+  },[]);
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.categories.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  
   const fetchPrev = (i= false)=> db.collection("products").orderBy("name").endBefore(prev).limitToLast(10).get().then(snapShot=>{
     if(snapShot.empty){
       return setFirst(false)
@@ -108,11 +112,10 @@ const Dashboard = () => {
                 <TableCell align="right">{row.id}</TableCell>
                 <TableCell align="right">
                     {
-                      !products.find(el=> el.category === row.id) && <Button
+                      <Button
                       variant="contained"
                       color="secondary"
-                      style={{fontSize: `0.6rem`}}
-                      onClick={()=> data.delete("categories",row.id)}
+                      onClick={()=> setOpen(row.id)}
                     ><DeleteIcon />
                   </Button>
                     }
@@ -148,6 +151,7 @@ const Dashboard = () => {
         <Button to="/panel/add/category" variant="contained" color="primary" className="text-white mont font-weight-light my-3" component={Link}>Add Category</Button>
         </div>
       </section>
+      <Popup open={(open && true) || false} handleClose={()=> setOpen(false)} handleDelete={()=>data.delete("categories",open,()=> setOpen(false))} />
       <section className="pt-5">
       <div className="container pb-5">
         <h1 className={"font-weight-bold my-3 py-3 "+ classes.h1}>Products</h1>
