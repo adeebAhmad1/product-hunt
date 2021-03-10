@@ -55,7 +55,7 @@ const Searchbar = () => {
             onClick={onClick}
             className="col-lg-2 rounded-0 btn header_link align-items-center d-flex justify-content-center btn-primary"
           >
-            Search
+            Filter
           </button>
       </Paper>
     </div>
