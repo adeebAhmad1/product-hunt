@@ -18,7 +18,8 @@ class DataContextProvider extends Component {
     filteredproductsLoaded: false,
     pageLoaded: false,
     allLoaded: false,
-    firstTime: true
+    firstTime: true,
+    category: null
   };
   addDp = async (email,file,id,resolve,reject)=>{
     try {
@@ -47,6 +48,7 @@ class DataContextProvider extends Component {
   }
   getFiltered = (versions=null,category=null,res= ()=>{})=>{
     this.setState({filteredproductsLoaded: false,firstTime: false});
+    if(category) this.setState({category})
     const onSnapshot = snapShot=>{
       const filteredproducts = [];
       snapShot.forEach(doc=>{
@@ -57,7 +59,8 @@ class DataContextProvider extends Component {
       this.setState({filteredproducts,filteredproductsLoaded: true});
       res()
     }
-    if(versions) db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
+    if(versions && this.state.category) db.collection("products").where("category", "==", this.state.category).where("versions", "array-contains", versions).onSnapshot(onSnapshot);
+    else if(versions) db.collection("products").where("versions", "array-contains", versions).onSnapshot(onSnapshot);
     else if(category) db.collection("products").where("category", "==", category).onSnapshot(onSnapshot);
     else db.collection("products").onSnapshot(onSnapshot);
   }
@@ -78,7 +81,6 @@ class DataContextProvider extends Component {
   componentDidMount= async () =>{
     this.getData("categories","categoriesLoaded");
     window.addEventListener("load", () => this.setState({pageLoaded: true}));
-  // console.log(addingProducts)
   }
   delete = (collection,id,resolve,reject)=>{
     db.collection(collection).doc(id).delete().then(e=> resolve(e)).catch(reject)

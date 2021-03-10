@@ -1,7 +1,7 @@
 import React from 'react';
 import { useData } from '../../context/DataContext';
 import CategoryCard from '../utils/CategoryCard';
-import { Button } from "@material-ui/core"
+import { Button,Divider,Paper } from "@material-ui/core"
 
 const Categories = () => {
   const { categories,getFiltered,products } = useData();
@@ -20,10 +20,11 @@ const Categories = () => {
   const showVersions = ()=> ["Free","Paid","Freemium"].map(el=> <Button variant="contained" color="primary" onClick={()=> getFiltered(el)} key={el} style={{verticalAlign: `top`}} className="m-2">{el}</Button>);
   return (
     <div>
-      <div className="container">
+      <Paper className="container py-3">
         {showCategories()}
+        <Divider />
         {showVersions()}
-      </div>
+      </Paper>
     </div>
   );
 };
