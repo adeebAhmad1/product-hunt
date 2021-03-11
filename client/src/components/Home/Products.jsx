@@ -12,7 +12,7 @@ const Products = () => {
       ) : (
         <Paper className="container p-4">
           {firstTime && !filteredproductsLoaded
-            ? "Please Select a Category/Version or Search a product's name."
+            ? "Please select a category or search for a product's name."
             : "No products of The Related Category."}
         </Paper>
       )}
