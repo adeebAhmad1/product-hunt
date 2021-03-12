@@ -4,6 +4,7 @@ import { useHistory,useParams } from "react-router-dom";
 import { useData } from "../../context/DataContext";
 import { Paper,makeStyles,Select,MenuItem,InputBase  } from '@material-ui/core';
 import { Alert } from "@material-ui/lab"
+import { db } from "../../config/Firebase"
 
 const useStyles = makeStyles(()=>({
   select: {
@@ -28,18 +29,20 @@ const Add = () => {
   const get = (name) => name.current.value;
   useEffect(()=>{
     if(id){
-      const product = data.products.find(el=> el.id === id);
-      if(product){
-        name.current.value = product.name;
-        website.current.value = product.website;
-        icon.current.value = product.icon;
-        description.current.value = product.description;
-        version.current.value = product.versions.join(",");
-        minMembership.current.value = product.minMembership;
-        setCategory(product.category)
-      } else{
-        seterror({message: `Product Must be deleted or not available in the database`});
-      }
+      db.collection("products").doc(id).onSnapShot(doc=>{
+        if(doc.exists){
+          const product = doc.data();
+          name.current.value = product.name;
+          website.current.value = product.website;
+          icon.current.value = product.icon;
+          description.current.value = product.description;
+          version.current.value = product.versions.join(",");
+          minMembership.current.value = product.minMembership;
+          setCategory(product.category)
+        } else{
+          seterror({message: `Product Must be deleted or not available in the database`});
+        }
+      })
     }
   },[data.products,id])
   const pattern = new RegExp(`^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$`,'i');
