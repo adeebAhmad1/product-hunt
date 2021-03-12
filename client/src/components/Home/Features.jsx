@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useData } from '../../context/DataContext';
 import Featured from '../utils/Featured';
-import { Typography,makeStyles } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
+import { db } from "../../config/Firebase"
 
 const useStyles = makeStyles(theme=>({
   h1: {
@@ -10,18 +11,26 @@ const useStyles = makeStyles(theme=>({
 }))
 
 const Features = () => {
-  const {products} = useData(); 
+  const { featuredProducts,setFeatured } = useData(); 
   const classes = useStyles()
-  const [top,settop] = useState(products);
   useEffect(()=>{
-    settop(JSON.parse(JSON.stringify(products)).sort((a,b)=> b?.votes?.length - a?.votes?.length).slice(0,3));
-  },[products])
+    db.collection("products").orderBy("votesLength","desc").limit(3).onSnapshot(docs=>{
+      if(docs.empty) return;
+      const featuredProducts = []
+      docs.forEach(doc=>{
+        const featuredProduct = doc.data();
+        featuredProduct.id = doc.id;
+        featuredProducts.push(featuredProduct);
+      })
+      setFeatured(featuredProducts)
+    })
+  },[])
   return (
     <div className="py-5">
       <div className="container">
         <h1 className={"font-weight-bold my-3 "+ classes.h1}>Featured Products</h1>
         <div className="row">
-        {top.map(el=> <div key={el.id} className="col-lg-4 my-3"><Featured tag="Featured" {...el}/></div> )}
+        {featuredProducts.map(el=> <div key={el.id} className="col-lg-4 my-3"><Featured tag="Featured" {...el}/></div> )}
         </div>
       </div>
     </div>

@@ -13,15 +13,15 @@ const useStyles = makeStyles(theme=> ({
 
 const Profile = () => {
   const { activeUser,user } = useAuth();
-  const { getUserProducts,addDp } = useData();
+  const { getUserProducts,addDp,userProducts } = useData();
   const classes = useStyles();
-  const [likedProducts,setLikedProducts] = useState([]);
+  
   const [img,setImg] = useState(null);
   const [fileSelected,setfileSelected] = useState(null);
   const [blob,setblob] = useState(null);
   useEffect(()=>{
     setImg(activeUser?.dp);
-    getUserProducts(activeUser?.uid,setLikedProducts)
+    getUserProducts(activeUser?.uid)
   },[activeUser,getUserProducts]);
   const crop = (url, aspectRatio = 1) => {
     return new Promise(resolve => {
@@ -143,7 +143,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="row my-4">
-        {likedProducts.map((el,i)=> <div className="col-lg-4 my-3"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
+        {userProducts.map((el,i)=> <div className="col-lg-4 my-3"><Paper><Featured tag="Liked Products" {...el} key={i} /></Paper></div>)}
       </div>
     </Paper>
     </div>

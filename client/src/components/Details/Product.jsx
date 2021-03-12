@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
 import { Alert } from '@material-ui/lab';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { Typography,Container,Paper,Button,Avatar,Chip,Breadcrumbs } from '@material-ui/core';
+import { Typography,Container,Paper,Button,Avatar,Chip } from '@material-ui/core';
 import { Link } from "react-router-dom";
 const Product = ({icon,votes=[],id,name,minMembership,website,description,versions,category}) => {
   const [error,setError] = useState(false);
@@ -19,7 +18,7 @@ const Product = ({icon,votes=[],id,name,minMembership,website,description,versio
       const i = votes.indexOf(uid)
       if(i >= 0)votes.splice(i, 1)
       else votes.push(uid);
-      updateData("products",id,{votes},()=>{},err=>setError(err));
+      updateData("products",id,{votes,votedLength: votes.length+1},()=>{},err=>setError(err));
     } else setError({message: <div>Please <Link to="/login" >Login</Link> Before Trying to vote</div>})
   }
   return (

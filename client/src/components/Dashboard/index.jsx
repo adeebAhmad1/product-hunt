@@ -34,6 +34,7 @@ const Dashboard = () => {
   const [open, setOpen] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const fetchNext = (i= false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
+    console.log(snapShot)
     if(snapShot.empty){
       return setlast(true)
     }
@@ -50,8 +51,22 @@ const Dashboard = () => {
     setProducts(array)
   })
   useEffect(()=>{
-    fetchNext();
-    console.log(db)
+    db.collection("products").orderBy("name").limit(10).get().then(snapShot=>{
+      console.log(snapShot)
+      if(snapShot.empty){
+        return setlast(true)
+      }
+      const array = [];
+      setprev(snapShot.docs[0])
+      setstart(snapShot.docs[snapShot.docs.length-1])
+      snapShot.forEach(doc=>{
+        const data = doc.data();
+        console.log(data.name)
+        data.id = doc.id;
+        array.push(data);
+      });
+      setProducts(array)
+    })
   },[]);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.categories.length - page * rowsPerPage);

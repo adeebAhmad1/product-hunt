@@ -6,8 +6,7 @@ export const useData = ()=> useContext(DataContext);
 
 class DataContextProvider extends Component {
   state = {
-    products: [],
-    productsLoaded: false,
+    featuredProducts: [],
     comments: [],
     commentsLoaded: false,
     replies: [],
@@ -19,7 +18,8 @@ class DataContextProvider extends Component {
     pageLoaded: false,
     allLoaded: false,
     firstTime: true,
-    category: null
+    category: null,
+    userProducts: []
   };
   addDp = async (email,file,id,resolve,reject)=>{
     try {
@@ -66,13 +66,13 @@ class DataContextProvider extends Component {
   }
   getUserProducts =(id,set)=>{
     db.collection("products").where("votes","array-contains",id).onSnapshot(snapShot=>{
-      const filteredproducts = [];
+      const userProducts = [];
       snapShot.forEach(doc=>{
         const data = doc.data();
         data.id = doc.id;
-        filteredproducts.push(data);
+        userProducts.push(data);
       });
-      set(filteredproducts)
+      this.setState({userProducts})
     })
   }
   setFiltered = (filteredproducts,filteredproductsLoaded)=> this.setState({filteredproducts,filteredproductsLoaded});
@@ -85,6 +85,7 @@ class DataContextProvider extends Component {
   delete = (collection,id,resolve,reject)=>{
     db.collection(collection).doc(id).delete().then(e=> resolve(e)).catch(reject)
   }
+  setFeatured = (featuredProducts) => this.setState({featuredProducts});
   UNSAFE_componentWillUpdate(prevProps, prevState){
     const { categoriesLoaded, pageLoaded, allLoaded } = prevState;
     if( categoriesLoaded && pageLoaded && !allLoaded){
@@ -135,7 +136,7 @@ class DataContextProvider extends Component {
   nameToUrl=(name)=> name.split(' ').join('_').toLowerCase();
   render() {
     return (
-      <DataContext.Provider value={{...this.state,getUser: this.getUser,addDp:this.addDp,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
+      <DataContext.Provider value={{...this.state,setFeatured:this.setFeatured,getUser: this.getUser,addDp:this.addDp,getUserProducts:this.getUserProducts,deleteReply: this.deleteReply,updateReply: this.updateReply,setReplies: this.setReplies,getReplies: this.getReplies,nameToUrl: this.nameToUrl,setFiltered: this.setFiltered,getComment: this.getComment,getFiltered:this.getFiltered,getData: this.getData,delete: this.delete,updateData: this.updateData,addIcon:this.addIcon,deleteIcon:this.deleteIcon,getIcon: this.getIcon,addData: this.addData}}>
         {this.state.allLoaded ? this.props.children : <div style={{minHeight: `100vh`}} className="d-flex justify-content-center align-items-center"><div className="lds-ripple"><div></div><div></div></div></div>}
       </DataContext.Provider>
     );

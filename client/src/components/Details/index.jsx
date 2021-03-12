@@ -7,13 +7,14 @@ import Product from './Product';
 const Details = () => {
   const { id } = useParams();
   const [product,setProduct] = useState(null)
-  const { filteredproducts } = useData();
+  const { filteredproducts,userProducts,featuredProducts } = useData();
+  const [products] = useState([...filteredproducts,...userProducts,...featuredProducts])
   useEffect(()=>{
     if(id) {
-      const product = filteredproducts.find(el=> el.id === id);
+      const product = products.find(el=> el.id === id);
       if(product) setProduct(product);
     }
-  },[id,filteredproducts])
+  },[id,products])
   return (
     <div>
       <Product {...product} />

@@ -29,7 +29,7 @@ const Product = ({ website, id, name, icon,versions, category,votes=[] }) => {
       } else{
         votes.push(uid)
       }
-      updateData("products",id,{votes},()=>{},err=>setError(err))
+      updateData("products",id,{votes,votedLength: votes.length+1},()=>{},err=>setError(err))
     } else{
       setError({message: <div>Please <Link to="/login" >Login</Link> Before Trying to vote</div>})
     }
