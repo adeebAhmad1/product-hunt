@@ -29,7 +29,7 @@ const Add = () => {
   const get = (name) => name.current.value;
   useEffect(()=>{
     if(id){
-      db.collection("products").doc(id).onSnapShot(doc=>{
+      db.collection("products").doc(id).onSnapshot(doc=>{
         if(doc.exists){
           const product = doc.data();
           name.current.value = product.name;
