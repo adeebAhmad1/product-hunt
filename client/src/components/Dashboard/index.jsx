@@ -33,7 +33,7 @@ const Dashboard = () => {
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const fetchNext = (i= false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).get().then(snapShot=>{
+  const fetchNext = (i= false)=> db.collection("products").orderBy("name").startAfter(start).limit(10).onSnapshot(snapShot=>{
     console.log(snapShot)
     if(snapShot.empty){
       return setlast(true)
@@ -51,7 +51,7 @@ const Dashboard = () => {
     setProducts(array)
   })
   useEffect(()=>{
-    db.collection("products").orderBy("name").limit(10).get().then(snapShot=>{
+    db.collection("products").orderBy("name").limit(10).onSnapshot(snapShot=>{
       console.log(snapShot)
       if(snapShot.empty){
         return setlast(true)
@@ -82,7 +82,7 @@ const Dashboard = () => {
 
 
   
-  const fetchPrev = (i= false)=> db.collection("products").orderBy("name").endBefore(prev).limitToLast(10).get().then(snapShot=>{
+  const fetchPrev = (i= false)=> db.collection("products").orderBy("name").endBefore(prev).limitToLast(10).onSnapshot(snapShot=>{
     if(snapShot.empty){
       return setFirst(false)
     }
